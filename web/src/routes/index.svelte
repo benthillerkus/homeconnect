@@ -5,6 +5,10 @@
   import Card from "$lib/card.svelte";
 </script>
 
+<svelte:head>
+  <title>Homeconnect</title>
+</svelte:head>
+
 <section id="page">
   <header>
     <h1>Homeconnect</h1>
