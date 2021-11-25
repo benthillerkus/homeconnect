@@ -1,10 +1,23 @@
 <script context="module">
+  /** @type {import('@sveltejs/kit').Load} */
+  export async function load({ fetch }) {
+    const res = await fetch("index.json");
+    const content = await res.json();
+
+    return {
+      props: {
+        data: content.data,
+        error: content.error
+      }
+    };
+  }
 </script>
 
 <script>
   import Card from "$lib/card.svelte";
 
-  let cards = [3, 4, 5, 6, 7];
+  export let data;
+  export let error;
 </script>
 
 <svelte:head>
@@ -16,14 +29,16 @@
     <h1>Homeconnect</h1>
   </header>
   <main>
-    <div style="scroll-snap-align: start;" class="divider" />
-    <div class="divider" />
-    <div class="divider" />
-    <Card />
-    {#each cards as { card }, i}
+    {#if data}
+      <div style="scroll-snap-align: start;" class="divider" />
       <div class="divider" />
-      <Card />
-    {/each}
+      {#each data as { name, id }, i}
+        <div class="divider" />
+        <Card {name} />
+      {/each}
+    {:else}
+      <code>{JSON.stringify(error)}</code>
+    {/if}
   </main>
   <footer>
     <small>
@@ -101,6 +116,17 @@
 
   main > * {
     margin-block: 15px;
+  }
+
+  main > code {
+    color-scheme: dark;
+    position: absolute;
+    top: 45%;
+    color: lightcoral;
+    background: rgb(52, 45, 66);
+    padding: 20px;
+    border-radius: 10px;
+    border: solid 4px rgba(255, 187, 0, 0.664);
   }
 
   .divider {
