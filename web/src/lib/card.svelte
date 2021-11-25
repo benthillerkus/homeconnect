@@ -7,6 +7,7 @@
 
 <section>
   <canvas />
+  <div id="info" />
   <div id="actions">
     <Heart />
   </div>
@@ -19,17 +20,22 @@
     grid: "image image" 80% "info actions" auto / 50% auto;
     gap: 1rem;
     border-radius: 18px;
-    width: 460px;
-    height: 510px;
-    padding: 20px;
+    height: 40vh;
+    aspect-ratio: 5 / 4;
+    padding: 18px;
+    scroll-snap-align: start;
   }
 
   canvas {
     grid-area: image;
     width: 100%;
     height: 100%;
-    border-radius: 14px;
+    border-radius: 12px;
     background-color: beige;
+  }
+
+  #info {
+    grid-area: info;
   }
 
   #actions {
