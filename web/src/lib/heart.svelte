@@ -26,8 +26,8 @@
 
 <style>
   div {
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
   }
 
   path {
@@ -51,12 +51,18 @@
 
   label span {
     position: absolute;
+    translate: -95% 170%;
     user-select: none;
     opacity: 0;
     transition: all 0.3s ease;
+    background-color: black;
+    border-radius: 5px;
+    color: white;
+    padding: 5px 7px;
+    text-align: center;
   }
 
   label:hover span {
-    opacity: 1;
+    opacity: .8;
   }
 </style>
