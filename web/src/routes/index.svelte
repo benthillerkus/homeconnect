@@ -16,6 +16,8 @@
     <h1>Homeconnect</h1>
   </header>
   <main>
+    <div style="scroll-snap-align: start;" class="divider" />
+    <div class="divider" />
     <div class="divider" />
     <Card />
     {#each cards as { card }, i}
@@ -98,12 +100,11 @@
   }
 
   main > * {
-    margin-block: 30px;
+    margin-block: 15px;
   }
 
   .divider {
     width: 70%;
-    height: 5px;
     background-color: black;
     opacity: 0.1;
     border-radius: 2px;
