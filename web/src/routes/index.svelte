@@ -42,10 +42,6 @@
     color-scheme: light;
   }
 
-  #page {
-    height: 100%;
-    width: 100%;
-  }
   header {
     z-index: 1;
     position: absolute;
@@ -83,6 +79,11 @@
   @media only screen and (min-width: 500px) {
     main::-webkit-scrollbar {
       width: 20px;
+    }
+
+    main::-webkit-scrollbar-track {
+      margin-top: 54px;
+      margin-bottom: 26px;
     }
 
     main::-webkit-scrollbar-thumb {
