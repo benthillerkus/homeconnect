@@ -43,10 +43,8 @@
   }
 
   #page {
-    display: grid;
-    height: 100vh;
+    height: 100%;
     width: 100%;
-    grid-template: "header" 10% "main" auto "footer" 30px;
   }
   header {
     z-index: 1;
@@ -58,7 +56,9 @@
   }
 
   main {
-    margin-top: 30px;
+    position: absolute;
+    top: 0;
+    height: 100vh;
     grid-row-start: header;
     grid-row-end: main;
     position: sticky;
@@ -104,18 +104,14 @@
     border-radius: 2px;
   }
 
-  footer::before {
-    content: "";
+  footer {
     position: absolute;
-    bottom: 0;
+    top: 97%;
     width: 100%;
-    height: 100px;
     background: linear-gradient(transparent, white, white);
-    pointer-events: none;
   }
 
-  footer {
-    grid-row: footer;
+  footer small nav {
     display: flex;
     justify-content: center;
   }
