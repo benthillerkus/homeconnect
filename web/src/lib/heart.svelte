@@ -26,6 +26,7 @@
 
 <style>
   div {
+    user-select: none;
     width: 40px;
     height: 40px;
   }
@@ -52,9 +53,9 @@
   label span {
     position: absolute;
     translate: -95% 170%;
-    user-select: none;
     opacity: 0;
     transition: all 0.3s ease;
+    transition-delay: 0.2s;
     background-color: black;
     border-radius: 5px;
     color: white;
