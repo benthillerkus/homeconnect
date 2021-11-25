@@ -6,7 +6,7 @@
 </script>
 
 <div>
-  <input id="cbt" type="checkbox" bind:checked={liked} />
+  <input class="visually-hidden" id="cbt" type="checkbox" bind:checked={liked} />
 
   <label for="cbt">
     <svg
@@ -33,13 +33,19 @@
 </div>
 
 <style>
+  .visually-hidden {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
   div {
     width: 60px;
     height: 60px;
-  }
-
-  input[type="checkbox"] {
-    display: none;
   }
 
   path {
