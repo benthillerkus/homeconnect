@@ -72,6 +72,10 @@
     margin-inline: 8px;
   }
 
+  main:focus {
+    outline: none;
+  }
+
   main::-webkit-scrollbar {
     width: 0px;
   }

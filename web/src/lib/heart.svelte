@@ -50,6 +50,11 @@
     translate: 0 0;
   }
 
+  input:focus-visible + svg {
+    background-color: rgba(0, 0, 0, 0.11);
+    border-radius: 50%;
+  }
+
   label span {
     position: absolute;
     translate: -95% 170%;
