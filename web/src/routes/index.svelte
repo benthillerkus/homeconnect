@@ -105,21 +105,31 @@
   }
 
   footer {
-    position: absolute;
-    top: 97%;
-    width: 100%;
-    background: linear-gradient(transparent, white, white);
+    display: none;
   }
 
-  footer small nav {
-    display: flex;
-    justify-content: center;
-  }
+  @media only screen and (min-width: 500px) {
+    footer {
+      display: block;
+      position: absolute;
+      bottom: 0%;
+      height: 40px;
+      width: 100%;
+      background: linear-gradient(transparent, white, white);
+    }
 
-  footer small nav a {
-    padding: 0.2rem;
-    opacity: 0.5;
-    text-decoration: none;
-    color: black;
+    footer small nav {
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+    }
+
+    footer small nav a {
+      padding: 0.2rem;
+      opacity: 0.5;
+      text-decoration: none;
+      color: black;
+    }
   }
 </style>
