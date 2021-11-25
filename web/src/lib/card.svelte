@@ -20,9 +20,8 @@
     grid: "image image" 80% "info actions" auto / 50% auto;
     gap: 1rem;
     border-radius: 18px;
-    height: 40vh;
-    aspect-ratio: 5 / 4;
-    padding: 18px;
+    width: min(350px, 80%);
+    padding: min(18px, 5%);
     scroll-snap-align: start;
   }
 

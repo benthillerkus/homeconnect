@@ -72,28 +72,24 @@
     margin-inline: 8px;
   }
 
-  footer::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100px;
-    background: linear-gradient(transparent, white, white);
-    pointer-events: none;
-  }
-
   main::-webkit-scrollbar {
-    width: 20px;
+    width: 0px;
   }
 
-  main::-webkit-scrollbar-thumb {
-    background-color: aliceblue;
-    border-radius: 18px;
-    border: solid 4px #f1f1f1;
-  }
+  @media only screen and (min-width: 500px) {
+    main::-webkit-scrollbar {
+      width: 20px;
+    }
 
-  main::-webkit-scrollbar-thumb:hover {
-    background-color: #b3b3b3;
+    main::-webkit-scrollbar-thumb {
+      background-color: aliceblue;
+      border-radius: 18px;
+      border: solid 4px #f1f1f1;
+    }
+
+    main::-webkit-scrollbar-thumb:hover {
+      background-color: #b3b3b3;
+    }
   }
 
   main > * {
@@ -106,6 +102,16 @@
     background-color: black;
     opacity: 0.1;
     border-radius: 2px;
+  }
+
+  footer::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 100px;
+    background: linear-gradient(transparent, white, white);
+    pointer-events: none;
   }
 
   footer {
