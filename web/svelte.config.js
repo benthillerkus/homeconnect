@@ -1,4 +1,4 @@
-import adapter from "@sveltejs/adapter-auto";
+import adapter from "@sveltejs/adapter-auto"
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -6,12 +6,11 @@ const config = {
     adapter: adapter(),
 
     vite: {
-      envPrefix: "NEXT_", // lol
       define: {
         "process.env": process.env
       }
     }
   }
-};
+}
 
-export default config;
+export default config

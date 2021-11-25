@@ -2,7 +2,7 @@
 </script>
 
 <script>
-  export let liked = true;
+  export let liked = true
 </script>
 
 <div>

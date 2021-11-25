@@ -2,9 +2,9 @@
 </script>
 
 <script>
-  import Heart from "$lib/heart.svelte";
+  import Heart from "$lib/heart.svelte"
 
-  export let name = "Svelte";
+  export let name = "Svelte"
 </script>
 
 <section>

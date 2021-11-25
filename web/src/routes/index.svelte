@@ -1,23 +1,23 @@
 <script context="module">
   /** @type {import('@sveltejs/kit').Load} */
   export async function load({ fetch }) {
-    const res = await fetch("index.json");
-    const content = await res.json();
+    const res = await fetch("index.json")
+    const content = await res.json()
 
     return {
       props: {
         data: content.data,
         error: content.error
       }
-    };
+    }
   }
 </script>
 
 <script>
-  import Card from "$lib/card.svelte";
+  import Card from "$lib/card.svelte"
 
-  export let data;
-  export let error;
+  export let data
+  export let error
 </script>
 
 <svelte:head>
