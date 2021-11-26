@@ -8,5 +8,6 @@
   "arrowParens": "avoid",
   "svelteSortOrder": "scripts-options-markup-styles",
   "svelteBracketNewLine": true,
-  "svelteAllowShorthand": true
+  "svelteAllowShorthand": true,
+  "bracketSpacing": true
 }
