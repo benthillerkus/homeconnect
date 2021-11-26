@@ -2,12 +2,16 @@
 </script>
 
 <script>
-  import Heart from "$lib/heart.svelte";
+  import Heart from "$lib/heart.svelte"
+
+  export let name = "Svelte"
 </script>
 
 <section>
   <canvas />
-  <div id="info" />
+  <div id="info">
+    <span>{name}</span>
+  </div>
   <div id="actions">
     <Heart />
   </div>
@@ -21,8 +25,8 @@
     gap: 1rem;
     border-radius: 18px;
     width: min(350px, 80%);
-    padding: min(18px, 5%);
-    scroll-snap-align: start;
+    padding: min(16px, 5%);
+    scroll-snap-align: end;
   }
 
   canvas {
