@@ -36,6 +36,8 @@
         <div class="divider" />
         <Card {data} />
       {/each}
+      <div class="divider" />
+      <div class="divider" />
     {:else}
       <code>{JSON.stringify(error)}</code>
     {/if}
