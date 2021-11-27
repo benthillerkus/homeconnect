@@ -30,7 +30,7 @@
   </header>
   <main>
     {#if data}
-      <div style="scroll-snap-align: start;" class="divider" />
+      <div class="divider" />
       <div class="divider" />
       {#each data as data, i}
         <div class="divider" />
@@ -80,7 +80,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    scroll-snap-type: y proximity;
     overflow-y: auto;
     scrollbar-gutter: stable both-edges;
     scrollbar-width: thin;

@@ -55,7 +55,6 @@
     border-radius: 18px;
     width: min(350px, 80%);
     padding: min(16px, 5%);
-    scroll-snap-align: end;
   }
 
   canvas {
