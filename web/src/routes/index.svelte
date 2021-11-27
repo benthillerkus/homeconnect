@@ -32,9 +32,9 @@
     {#if data}
       <div style="scroll-snap-align: start;" class="divider" />
       <div class="divider" />
-      {#each data as { name, id }, i}
+      {#each data as data, i}
         <div class="divider" />
-        <Card {name} />
+        <Card {data} />
       {/each}
     {:else}
       <code>{JSON.stringify(error)}</code>

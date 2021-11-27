@@ -3,14 +3,43 @@
 
 <script>
   import Heart from "$lib/heart.svelte"
+  import { onMount } from "svelte"
 
-  export let name = "Svelte"
+  export let data
+
+  let canvas
+  let ctx
+  let width
+  let height
+  let img
+
+  function draw() {
+    const aspect = width / height
+    const aspectImage = img.naturalWidth / img.naturalHeight
+
+    if (aspect > aspectImage) {
+      const newHeight = width / aspectImage
+      ctx.drawImage(img, 0, (height - newHeight) / 2, width, newHeight)
+    } else {
+      const newWidth = height * aspectImage
+      ctx.drawImage(img, (width - newWidth) / 2, 0, newWidth, height)
+    }
+  }
+
+  onMount(async () => {
+    ctx = canvas.getContext("2d")
+    canvas.width = canvas.clientWidth
+    canvas.height = canvas.clientHeight
+    img = new Image()
+    img.onload = draw
+    img.src = data.url
+  })
 </script>
 
 <section>
-  <canvas />
+  <canvas bind:this={canvas} bind:clientHeight={height} bind:clientWidth={width} />
   <div id="info">
-    <span>{name}</span>
+    <span>{data.created_at}</span>
   </div>
   <div id="actions">
     <Heart />
@@ -33,7 +62,7 @@
     grid-area: image;
     width: 100%;
     height: 100%;
-    border-radius: 12px;
+    border-radius: 8px;
     background-color: beige;
   }
 
