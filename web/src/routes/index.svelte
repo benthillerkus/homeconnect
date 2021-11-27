@@ -1,7 +1,7 @@
 <script context="module">
   /** @type {import('@sveltejs/kit').Load} */
   export async function load({ fetch }) {
-    const res = await fetch("index.json")
+    const res = await fetch("api/v1/images")
     const content = await res.json()
 
     return {
