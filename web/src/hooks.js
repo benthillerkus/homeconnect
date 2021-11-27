@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid"
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ request, resolve }) {
-  if (request.method === "POST") {
+  if (request.method === "POST" && request.path === "/api/v1/images") {
     if (request.headers.authorization === `Bearer ${import.meta.env.VITE_HOMECONNECT_ALLOW_POST}`) {
       const { data, error } = await supabase.storage
         .from("images")
