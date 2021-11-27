@@ -53,7 +53,7 @@
     grid: "image image" 300px "info actions" auto / 50% auto;
     gap: 1rem;
     border-radius: 18px;
-    width: min(350px, 80%);
+    aspect-ratio: 6 / 6;
     padding: min(16px, 5%);
   }
 
