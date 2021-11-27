@@ -9,7 +9,8 @@ const config = {
       define: {
         "process.env": process.env
       }
-    }
+    },
+    trailingSlash: "never"
   }
 }
 
