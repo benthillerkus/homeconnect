@@ -50,7 +50,7 @@
   section {
     background-color: aliceblue;
     display: grid;
-    grid: "image image" 80% "info actions" auto / 50% auto;
+    grid: "image image" 300px "info actions" auto / 50% auto;
     gap: 1rem;
     border-radius: 18px;
     width: min(350px, 80%);
