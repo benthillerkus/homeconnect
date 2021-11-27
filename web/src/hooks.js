@@ -1,4 +1,5 @@
 import { supabase } from "$lib/_db.js"
+import { v4 as uuidv4 } from "uuid"
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ request, resolve }) {
@@ -6,7 +7,7 @@ export async function handle({ request, resolve }) {
     if (request.headers.authorization === `Bearer ${import.meta.env.VITE_HOMECONNECT_ALLOW_POST}`) {
       const { data, error } = await supabase.storage
         .from("images")
-        .upload(request.headers.name, request.rawBody, {
+        .upload(uuidv4(), request.rawBody, {
           contentType: request.headers["content-type"]
         })
 
