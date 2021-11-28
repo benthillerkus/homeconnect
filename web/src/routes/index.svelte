@@ -65,17 +65,20 @@
     z-index: 1;
     position: absolute;
     width: 100%;
-    grid-row: header;
     text-align: center;
-    background: linear-gradient(white, white, transparent);
+    background: linear-gradient(
+        white,
+        rgba(255, 255, 255, 0.918),
+        rgba(255, 255, 255, 0.37),
+        transparent
+      )
+      no-repeat;
   }
 
   main {
     position: absolute;
     top: 0;
     height: 100vh;
-    grid-row-start: header;
-    grid-row-end: main;
     position: sticky;
     display: flex;
     flex-direction: column;
@@ -146,9 +149,9 @@
       display: block;
       position: absolute;
       bottom: 0%;
-      height: 40px;
+      height: 50px;
       width: 100%;
-      background: linear-gradient(transparent, white, white);
+      background: linear-gradient(transparent, rgba(255, 255, 255, 0.76), white);
     }
 
     footer small nav {
