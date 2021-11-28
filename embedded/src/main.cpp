@@ -121,7 +121,7 @@ void setup()
   else
   {
     Serial.println("Posting image");
-    client.println("POST " + path + "HTTP/1.1");
+    client.println("POST " + path + " HTTP/1.1");
     client.println("Host: " + host);
     client.println("Content-Type: image/jpeg");
     client.println("Content-Length: " + String(fb->len));
@@ -151,6 +151,7 @@ void setup()
     while (client.connected())
     {
       String line = client.readStringUntil('\n');
+      Serial.println(line);
       if (line == "\r")
       {
         Serial.println("headers received");
