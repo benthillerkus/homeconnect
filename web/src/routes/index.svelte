@@ -47,7 +47,7 @@
       <nav>
         <a>about</a>
         <a href="https://github.com/benthillerkus/homeconnect">source</a>
-        <a>licenses</a>
+        <a href="licenses">licenses</a>
       </nav>
     </small>
   </footer>
@@ -86,7 +86,6 @@
     overflow-y: auto;
     scrollbar-gutter: stable both-edges;
     scrollbar-width: thin;
-    margin-inline: 8px;
   }
 
   main:focus {
@@ -98,6 +97,10 @@
   }
 
   @media only screen and (min-width: 500px) {
+    main {
+      margin-inline: 8px;
+    }
+
     main::-webkit-scrollbar {
       width: 20px;
     }

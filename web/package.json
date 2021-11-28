@@ -22,7 +22,6 @@
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^1.28.1",
-    "inset.js": "^1.0.2",
     "uuid": "^8.3.2"
   }
 }

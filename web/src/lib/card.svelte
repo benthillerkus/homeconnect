@@ -5,7 +5,7 @@
 <script>
   import Heart from "$lib/heart.svelte"
   import { onMount } from "svelte"
-  import "inset.js"
+  import "$lib/inset.js"
 
   export let data
   export const delay = 0
@@ -15,6 +15,10 @@
   let width
   let height
   let img
+
+  function easeInOutQuad(x) {
+    return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2
+  }
 
   let start, previousTimeStamp
   const fadeLength = 2000 + delay
@@ -40,7 +44,7 @@
     ctx.shadowColor = "#CCCCCE"
     ctx.globalCompositeOperation = "multiply"
     ctx.beginPath()
-    let component = Math.pow(progress, 0.8) * 255
+    let component = Math.pow(easeInOutQuad(progress), 0.8) * 255
     ctx.fillStyle = `rgb(${component} ${component} ${component})`
     ctx.rect(0, 0, width, height)
     ctx.fill()
@@ -101,7 +105,7 @@
 <style>
   section {
     display: grid;
-    grid: "image image" 300px "info actions" auto / 50% auto;
+    grid: "image image" calc(min(300px, 70vw)) "info actions" auto / 50% auto;
     gap: 1rem;
     border-radius: 18px;
     aspect-ratio: 6 / 6;
