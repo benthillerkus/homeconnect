@@ -80,13 +80,7 @@
     transition: transform 0.3s ease-out;
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.041), 0 1px 3px rgba(0, 0, 0, 0.055);
     transform: perspective(30cm) translateZ(0px);
-    background: radial-gradient(
-        at calc((var(--mouse-x, 0) + 0.5) * 100%) calc((var(--mouse-y, 0) + 0.5) * 100%),
-        rgb(245, 243, 238),
-        rgb(230, 226, 220)
-      )
-      no-repeat 0 0;
-    background-blend-mode: screen;
+    background: rgb(230, 226, 220);
   }
 
   section::after {
@@ -100,10 +94,17 @@
     opacity: 0;
     transition: opacity 0.3s ease-out;
   }
-  @media (hover: hover) and (pointer: fine), only screen {
+  @media (hover: hover) and (pointer: fine) {
     section:hover {
       transform: perspective(30cm) translateZ(calc(var(--intrusion) * 16px))
         rotateX(calc(var(--mouse-y) * 30deg)) rotateY(calc(var(--mouse-x) * -30deg));
+
+      background: radial-gradient(
+          at calc((var(--mouse-x, 0) + 0.5) * 100%) calc((var(--mouse-y, 0) + 0.5) * 100%),
+          rgb(245, 243, 238),
+          rgb(230, 226, 220)
+        )
+        no-repeat 0 0;
     }
 
     section:hover::after {
