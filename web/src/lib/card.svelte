@@ -34,9 +34,32 @@
     img.onload = draw
     img.src = data.url
   })
+
+  let card
+
+  function handleMousemove(event) {
+    const rect = card.getBoundingClientRect()
+    let x = (event.clientX - rect.left) / rect.width - 0.5
+    let y = (event.clientY - rect.top) / rect.height - 0.5
+
+    window.requestAnimationFrame(timespamp => {
+      card.style.setProperty("--mouse-x", x)
+      card.style.setProperty("--mouse-y", y)
+      card.style.setProperty("--intrusion", 2 - Math.abs(x) - Math.abs(y))
+    })
+  }
+
+  function handleMouseout() {
+    if (isInsideCard()) {
+      return false
+    } else {
+      card.style.transform = "perspective(30cm) translateZ(0px)"
+      return true
+    }
+  }
 </script>
 
-<section>
+<section bind:this={card} on:mousemove={handleMousemove}>
   <canvas bind:this={canvas} bind:clientHeight={height} bind:clientWidth={width} />
   <div id="info">
     <span>{data.created_at}</span>
@@ -48,13 +71,43 @@
 
 <style>
   section {
-    background-color: aliceblue;
     display: grid;
     grid: "image image" 300px "info actions" auto / 50% auto;
     gap: 1rem;
     border-radius: 18px;
     aspect-ratio: 6 / 6;
     padding: min(16px, 5%);
+    transition: transform 0.3s ease-out;
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.041), 0 1px 3px rgba(0, 0, 0, 0.055);
+    transform: perspective(30cm) translateZ(0px);
+    background: radial-gradient(
+        at calc((var(--mouse-x, 0) + 0.5) * 100%) calc((var(--mouse-y, 0) + 0.5) * 100%),
+        rgb(245, 243, 238),
+        rgb(230, 226, 220)
+      )
+      no-repeat 0 0;
+    background-blend-mode: screen;
+  }
+
+  section:hover {
+    transform: perspective(30cm) translateZ(calc(var(--intrusion) * 16px))
+      rotateX(calc(var(--mouse-y) * 30deg)) rotateY(calc(var(--mouse-x) * -30deg));
+  }
+
+  section::after {
+    content: "";
+    position: absolute;
+    z-index: -3;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.144);
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+
+  section:hover::after {
+    opacity: 1;
   }
 
   canvas {

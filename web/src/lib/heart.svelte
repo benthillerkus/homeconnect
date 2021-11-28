@@ -66,6 +66,7 @@
     color: white;
     padding: 5px 7px;
     text-align: center;
+    z-index: 5;
   }
 
   label:hover span {
