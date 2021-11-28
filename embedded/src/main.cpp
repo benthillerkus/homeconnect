@@ -36,6 +36,8 @@
 #define HREF_GPIO_NUM 23
 #define PCLK_GPIO_NUM 22
 
+#define INTERNAL_LED 4
+
 #define uS_TO_S_FACTOR 1000000 /* Conversion factor for micro seconds to seconds */
 #define TIME_TO_SLEEP 25       /* Time ESP32 will go to sleep (in seconds) */
 
@@ -46,6 +48,8 @@ void setup()
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
   esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
   Serial.begin(115200);
+
+  pinMode(INTERNAL_LED, OUTPUT);
 
   Serial.println("Connecting to wifi");
   WiFi.mode(WIFI_STA);
@@ -87,12 +91,14 @@ void setup()
     config.frame_size = FRAMESIZE_SVGA;
     config.jpeg_quality = 10; //0-63 lower number means higher quality
     config.fb_count = 2;
+    Serial.println("PSRAM found, initializing camera with FRAMESIZE_SVGA and jpeg quality 10");
   }
   else
   {
     config.frame_size = FRAMESIZE_CIF;
     config.jpeg_quality = 12; //0-63 lower number means higher quality
     config.fb_count = 1;
+    Serial.println("PSRAM not found, initializing camera with FRAMESIZE_CIF and jpeg quality 12");
   }
 
   // camera init
@@ -104,8 +110,13 @@ void setup()
     ESP.restart();
   }
 
+  Serial.println("Taking picture...");
   camera_fb_t *fb = NULL;
+  digitalWrite(INTERNAL_LED, LOW);
+  delay(100);
   fb = esp_camera_fb_get();
+  delay(100);
+  digitalWrite(INTERNAL_LED, HIGH);
   if (!fb)
   {
     Serial.println("Camera capture failed");
