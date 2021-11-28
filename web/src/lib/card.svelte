@@ -89,11 +89,6 @@
     background-blend-mode: screen;
   }
 
-  section:hover {
-    transform: perspective(30cm) translateZ(calc(var(--intrusion) * 16px))
-      rotateX(calc(var(--mouse-y) * 30deg)) rotateY(calc(var(--mouse-x) * -30deg));
-  }
-
   section::after {
     content: "";
     position: absolute;
@@ -105,9 +100,15 @@
     opacity: 0;
     transition: opacity 0.3s ease-out;
   }
+  @media (hover: hover) and (pointer: fine), only screen {
+    section:hover {
+      transform: perspective(30cm) translateZ(calc(var(--intrusion) * 16px))
+        rotateX(calc(var(--mouse-y) * 30deg)) rotateY(calc(var(--mouse-x) * -30deg));
+    }
 
-  section:hover::after {
-    opacity: 1;
+    section:hover::after {
+      opacity: 1;
+    }
   }
 
   canvas {
