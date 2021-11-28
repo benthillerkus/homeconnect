@@ -94,7 +94,7 @@
     opacity: 0;
     transition: opacity 0.3s ease-out;
   }
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
     section:hover {
       transform: perspective(30cm) translateZ(calc(var(--intrusion) * 16px))
         rotateX(calc(var(--mouse-y) * 30deg)) rotateY(calc(var(--mouse-x) * -30deg));
