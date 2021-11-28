@@ -8,7 +8,7 @@
   import "$lib/inset.js"
 
   export let data
-  export const delay = 0
+  export let delay = 0
 
   let canvas
   let ctx
@@ -82,23 +82,28 @@
     })
   }
 
-  function handleMouseout() {
-    if (isInsideCard()) {
-      return false
-    } else {
-      card.style.transform = "perspective(30cm) translateZ(0px)"
-      return true
+  let liked
+  let lastTouch = 0
+  function handleDoubletap(event) {
+    if (event.pointerType === "touch") {
+      const now = Date.now()
+      if (now - lastTouch < 500) {
+        event.preventDefault()
+        liked = !liked
+      } else {
+        lastTouch = now
+      }
     }
   }
 </script>
 
-<section bind:this={card} on:mousemove={handleMousemove}>
+<section bind:this={card} on:mousemove={handleMousemove} on:pointerdown={handleDoubletap}>
   <canvas bind:this={canvas} bind:clientHeight={height} bind:clientWidth={width} />
   <div id="info">
     <span>{data.created_at}</span>
   </div>
   <div id="actions">
-    <Heart />
+    <Heart {liked} />
   </div>
 </section>
 
