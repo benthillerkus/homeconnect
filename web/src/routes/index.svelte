@@ -34,7 +34,7 @@
       <div class="divider" />
       {#each data as data, i}
         <div class="divider" />
-        <Card {data} />
+        <Card {data} delay={i * 500} />
       {/each}
       <div class="divider" />
       <div class="divider" />

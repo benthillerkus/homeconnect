@@ -1,11 +1,14 @@
 <script context="module">
+  export const ssr = false
 </script>
 
 <script>
   import Heart from "$lib/heart.svelte"
   import { onMount } from "svelte"
+  import "inset.js"
 
   export let data
+  export const delay = 0
 
   let canvas
   let ctx
@@ -13,9 +16,16 @@
   let height
   let img
 
-  function draw() {
+  let start, previousTimeStamp
+  const fadeLength = 2000 + delay
+  function fadeImage(timestamp) {
+    if (start === undefined) start = timestamp
+    const elapsed = timestamp - start
+    const progress = Math.min(elapsed / fadeLength, 1)
     const aspect = width / height
     const aspectImage = img.naturalWidth / img.naturalHeight
+
+    ctx.clearRect(0, 0, width, height)
 
     if (aspect > aspectImage) {
       const newHeight = width / aspectImage
@@ -24,6 +34,26 @@
       const newWidth = height * aspectImage
       ctx.drawImage(img, (width - newWidth) / 2, 0, newWidth, height)
     }
+
+    ctx.shadowInset = true
+    ctx.shadowBlur = 3
+    ctx.shadowColor = "#CCCCCE"
+    ctx.globalCompositeOperation = "multiply"
+    ctx.beginPath()
+    let component = Math.pow(progress, 0.8) * 255
+    ctx.fillStyle = `rgb(${component} ${component} ${component})`
+    ctx.rect(0, 0, width, height)
+    ctx.fill()
+    ctx.shadowBlur = 20
+    ctx.shadowColor = "#EEEEF5"
+    ctx.fillStyle = "white"
+    ctx.rect(0, 0, width, height)
+    ctx.fill()
+
+    if (elapsed < fadeLength) {
+      previousTimeStamp = timestamp
+      window.requestAnimationFrame(fadeImage)
+    }
   }
 
   onMount(async () => {
@@ -31,18 +61,17 @@
     canvas.width = canvas.clientWidth
     canvas.height = canvas.clientHeight
     img = new Image()
-    img.onload = draw
+    img.onload = () => window.requestAnimationFrame(fadeImage)
     img.src = data.url
   })
 
   let card
 
   function handleMousemove(event) {
-    const rect = card.getBoundingClientRect()
-    let x = (event.clientX - rect.left) / rect.width - 0.5
-    let y = (event.clientY - rect.top) / rect.height - 0.5
-
     window.requestAnimationFrame(timespamp => {
+      const rect = card.getBoundingClientRect()
+      let x = (event.clientX - rect.left) / rect.width - 0.5
+      let y = (event.clientY - rect.top) / rect.height - 0.5
       card.style.setProperty("--mouse-x", x)
       card.style.setProperty("--mouse-y", y)
       card.style.setProperty("--intrusion", 2 - Math.abs(x) - Math.abs(y))
@@ -77,7 +106,7 @@
     border-radius: 18px;
     aspect-ratio: 6 / 6;
     padding: min(16px, 5%);
-    transition: transform 0.3s ease-out;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 3px 4px rgba(0, 0, 0, 0.041), 0 1px 3px rgba(0, 0, 0, 0.055);
     transform: perspective(30cm) translateZ(0px);
     background: rgb(230, 226, 220);
@@ -94,6 +123,7 @@
     opacity: 0;
     transition: opacity 0.3s ease-out;
   }
+
   @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
     section:hover {
       transform: perspective(30cm) translateZ(calc(var(--intrusion) * 16px))
@@ -117,7 +147,7 @@
     width: 100%;
     height: 100%;
     border-radius: 8px;
-    background-color: beige;
+    background-color: black;
   }
 
   #info {
