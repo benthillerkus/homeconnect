@@ -3,7 +3,7 @@
   export async function load({ page, fetch }) {
     if (page.params.feed !== import.meta.env.VITE_HOMECONNECT_ALLOW_VIEW) {
       return {
-        status: 300,
+        status: 302,
         redirect: "/"
       }
     }
