@@ -6,14 +6,15 @@
   <title>Licenses</title>
 </svelte:head>
 
-<h1>Licenses</h1>
+<main>
+  <h1>Licenses</h1>
 
-<section>
-  <h2>inset.js by Pat Lillis</h2>
-  <a href="https://inset.js.org">inset.js.org</a>
-  <a href="https://github.com/patlillis/inset.js">github.com/patlillis/inset.js</a>
+  <section>
+    <h2>inset.js by Pat Lillis</h2>
+    <a href="https://inset.js.org">inset.js.org</a>
+    <a href="https://github.com/patlillis/inset.js">github.com/patlillis/inset.js</a>
 
-  <pre>
+    <pre>
 MIT License
 
 Copyright (c) 2017 Pat Lillis
@@ -36,4 +37,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
   </pre>
-</section>
+  </section>
+</main>
+
+<style>
+  main {
+    padding: 8px;
+    padding-top: 50px;
+  }
+</style>

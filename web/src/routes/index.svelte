@@ -1,174 +1,50 @@
 <script context="module">
-  /** @type {import('@sveltejs/kit').Load} */
-  export async function load({ fetch }) {
-    const res = await fetch("api/v1/images")
-    const content = await res.json()
-
-    return {
-      props: {
-        data: content.data,
-        error: content.error
-      }
-    }
-  }
+  export const prerender = true
 </script>
 
 <script>
   import Card from "$lib/card.svelte"
 
-  export let data
-  export let error
+  let data = {
+    url: "https://jobqljkvqwosdzpsmins.supabase.in/storage/v1/object/public/images/testimg2.jpg"
+  }
 </script>
 
-<svelte:head>
-  <title>Homeconnect</title>
-</svelte:head>
-
-<section id="page">
-  <header>
-    <h1>Homeconnect</h1>
-  </header>
-  <main>
-    {#if data}
-      <div class="divider" />
-      <div class="divider" />
-      {#each data as data, i}
-        <div class="divider" />
-        <Card {data} delay={i * 500} />
-      {/each}
-      <div class="divider" />
-      <div class="divider" />
-    {:else}
-      <code>{JSON.stringify(error)}</code>
-    {/if}
-  </main>
-  <footer>
-    <small>
-      <nav>
-        <a>about</a>
-        <a href="https://github.com/benthillerkus/homeconnect">source</a>
-        <a href="licenses">licenses</a>
-      </nav>
-    </small>
-  </footer>
-</section>
+<main>
+  <hgroup>
+    <h1>Ein soziales Netzwerk<br />für Kühlschränke</h1>
+    <p><i>fridge storage management</i></p>
+  </hgroup>
+  <Card {data} />
+</main>
 
 <style>
-  :global(body) {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    color-scheme: light;
-  }
-
-  header {
-    z-index: 1;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-    background: linear-gradient(
-        white,
-        rgba(255, 255, 255, 0.918),
-        rgba(255, 255, 255, 0.37),
-        transparent
-      )
-      no-repeat;
-  }
-
   main {
-    position: absolute;
-    top: 0;
-    height: 100vh;
-    position: sticky;
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    height: 100%;
     align-items: center;
-    overflow-y: auto;
-    scrollbar-gutter: stable both-edges;
-    scrollbar-width: thin;
+    justify-content: center;
+    flex-direction: column-reverse;
+    gap: 2rem;
   }
 
-  main:focus {
-    outline: none;
-  }
-
-  main::-webkit-scrollbar {
-    width: 0px;
-  }
-
-  @media only screen and (min-width: 500px) {
+  @media only screen and (min-width: 650px) {
     main {
-      margin-inline: 8px;
-    }
-
-    main::-webkit-scrollbar {
-      width: 20px;
-    }
-
-    main::-webkit-scrollbar-track {
-      margin-top: 54px;
-      margin-bottom: 26px;
-    }
-
-    main::-webkit-scrollbar-thumb {
-      background-color: aliceblue;
-      border-radius: 18px;
-      border: solid 4px #f1f1f1;
-    }
-
-    main::-webkit-scrollbar-thumb:hover {
-      background-color: #b3b3b3;
+      flex-direction: row;
     }
   }
 
-  main > * {
-    margin-block: 15px;
+  hgroup {
+    text-align: end;
+    line-height: 2rem;
   }
 
-  main > code {
-    color-scheme: dark;
-    position: absolute;
-    top: 45%;
-    color: lightcoral;
-    background: rgb(52, 45, 66);
-    padding: 20px;
-    border-radius: 10px;
-    border: solid 4px rgba(255, 187, 0, 0.664);
+  h1 {
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   }
 
-  .divider {
-    width: 70%;
-    background-color: black;
-    opacity: 0.1;
-    border-radius: 2px;
-  }
-
-  footer {
-    display: none;
-  }
-
-  @media only screen and (min-width: 500px) {
-    footer {
-      display: block;
-      position: absolute;
-      bottom: 0%;
-      height: 50px;
-      width: 100%;
-      background: linear-gradient(transparent, rgba(255, 255, 255, 0.76), white);
-    }
-
-    footer small nav {
-      display: flex;
-      height: 100%;
-      justify-content: center;
-      align-items: center;
-    }
-
-    footer small nav a {
-      padding: 0.2rem;
-      opacity: 0.5;
-      text-decoration: none;
-      color: black;
-    }
+  p {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   }
 </style>

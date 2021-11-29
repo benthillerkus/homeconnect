@@ -108,7 +108,8 @@
 <style>
   section {
     display: grid;
-    grid: "image image" calc(min(300px, 70vw)) "info actions" auto / 50% auto;
+    grid: "image image" auto "info actions" 40px / 50% auto;
+    min-width: 388px;
     gap: 1rem;
     border-radius: 18px;
     aspect-ratio: 6 / 6;
