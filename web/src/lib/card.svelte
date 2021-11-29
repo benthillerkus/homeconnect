@@ -107,6 +107,8 @@
   section {
     display: grid;
     grid: "image image" calc(min(300px, 70vw)) "info actions" auto / 50% auto;
+    content-visibility: auto;
+    contain-intrinsic-size: 388px 388px;
     gap: 1rem;
     border-radius: 18px;
     aspect-ratio: 6 / 6;
