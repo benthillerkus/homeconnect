@@ -5,6 +5,7 @@
 <script>
   import Heart from "$lib/heart.svelte"
   import { onMount } from "svelte"
+  import { fade } from "svelte/transition"
   import "$lib/inset.js"
 
   export let data
@@ -12,25 +13,16 @@
 
   let canvas
   let ctx
+  let loaded = false
   let width
   let height
   let img
 
-  function easeInOutQuad(x) {
-    return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2
-  }
+  function initImage() {
+    loaded = true
 
-  let start, previousTimeStamp
-  const fadeLength = 2000 + delay
-  function fadeImage(timestamp) {
-    if (start === undefined) start = timestamp
-    const elapsed = timestamp - start
-    const progress = Math.min(elapsed / fadeLength, 1)
     const aspect = width / height
     const aspectImage = img.naturalWidth / img.naturalHeight
-
-    ctx.clearRect(0, 0, width, height)
-
     if (aspect > aspectImage) {
       const newHeight = width / aspectImage
       ctx.drawImage(img, 0, (height - newHeight) / 2, width, newHeight)
@@ -44,20 +36,11 @@
     ctx.shadowColor = "#CCCCCE"
     ctx.globalCompositeOperation = "multiply"
     ctx.beginPath()
-    let component = Math.pow(easeInOutQuad(progress), 0.8) * 255
-    ctx.fillStyle = `rgb(${component} ${component} ${component})`
-    ctx.rect(0, 0, width, height)
-    ctx.fill()
     ctx.shadowBlur = 20
     ctx.shadowColor = "#EEEEF5"
     ctx.fillStyle = "white"
     ctx.rect(0, 0, width, height)
     ctx.fill()
-
-    if (elapsed < fadeLength) {
-      previousTimeStamp = timestamp
-      window.requestAnimationFrame(fadeImage)
-    }
   }
 
   onMount(async () => {
@@ -65,8 +48,18 @@
     canvas.width = canvas.clientWidth
     canvas.height = canvas.clientHeight
     img = new Image()
-    img.onload = () => window.requestAnimationFrame(fadeImage)
-    img.src = data.url
+    img.onload = initImage
+
+    const io = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          img.src = data.url
+          observer.disconnect()
+        }
+      })
+    })
+
+    io.observe(canvas)
   })
 
   let card
@@ -99,6 +92,9 @@
 
 <section bind:this={card} on:mousemove={handleMousemove} on:pointerdown={handleDoubletap}>
   <canvas bind:this={canvas} bind:clientHeight={height} bind:clientWidth={width} />
+  {#if !loaded}
+    <div transition:fade={{ duration: 2500 }} id="overlay" />
+  {/if}
   <div id="info">
     <span>{data.created_at}</span>
   </div>
@@ -153,10 +149,23 @@
 
   canvas {
     grid-area: image;
+    display: block;
     width: 100%;
     height: 100%;
     border-radius: 8px;
     background-color: black;
+  }
+
+  #overlay {
+    grid-area: image;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
+    border-radius: 8px;
+    background: black;
   }
 
   #info {
