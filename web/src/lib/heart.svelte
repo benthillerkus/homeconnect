@@ -36,8 +36,8 @@
   }
 
   path#inner {
-    scale: 0;
     translate: 50% 50%;
+    transform: scale(0);
   }
 
   input {
@@ -46,8 +46,8 @@
   }
 
   input:checked + svg path#inner {
-    scale: 1;
     translate: 0 0;
+    transform: scale(1);
   }
 
   input:focus-visible + svg {
@@ -57,7 +57,7 @@
 
   label span {
     position: absolute;
-    translate: -95% 170%;
+    margin-top: 5px;
     opacity: 0;
     transition: all 0.3s ease;
     transition-delay: 0.2s;
