@@ -46,6 +46,7 @@
   main {
     position: absolute;
     padding-top: 70px;
+    padding-bottom: 70px;
     height: 100vh;
     position: sticky;
     display: flex;
