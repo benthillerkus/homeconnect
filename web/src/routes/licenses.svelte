@@ -8,7 +8,7 @@
 
 <main>
   <h1>Licenses</h1>
-
+  <br>
   <section>
     <h2>inset.js by Pat Lillis</h2>
     <a href="https://inset.js.org">inset.js.org</a>
