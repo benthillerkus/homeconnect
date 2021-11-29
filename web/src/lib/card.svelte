@@ -13,10 +13,10 @@
 
   let canvas
   let ctx
-  let loaded = false
   let width
   let height
   let img
+  let loaded = false
 
   function initImage() {
     loaded = true
@@ -47,15 +47,14 @@
   }
 
   onMount(async () => {
-    ctx = canvas.getContext("2d")
-    canvas.width = canvas.clientWidth
-    canvas.height = canvas.clientHeight
-    img = new Image()
-    img.onload = initImage
-
     const io = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          ctx = canvas.getContext("2d")
+          canvas.width = canvas.clientWidth
+          canvas.height = canvas.clientHeight
+          img = new Image()
+          img.onload = initImage
           img.src = data.url
           observer.disconnect()
         }
@@ -99,7 +98,7 @@
     <div transition:fade={{ duration: 2500 }} id="overlay" />
   {/if}
   <div id="info">
-    <span>{data.created_at}</span>
+    <span>{width}x{height}</span>
   </div>
   <div id="actions">
     <Heart {liked} />
@@ -110,8 +109,6 @@
   section {
     display: grid;
     grid: "image image" calc(min(300px, 70vw)) "info actions" auto / 50% auto;
-    content-visibility: auto;
-    contain-intrinsic-size: 388px 388px;
     gap: 1rem;
     border-radius: 18px;
     aspect-ratio: 6 / 6;
