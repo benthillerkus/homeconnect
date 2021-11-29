@@ -31,14 +31,17 @@
       ctx.drawImage(img, (width - newWidth) / 2, 0, newWidth, height)
     }
 
+    ctx.beginPath()
     ctx.shadowInset = true
-    ctx.shadowBlur = 3
+    ctx.shadowBlur = 5
     ctx.shadowColor = "#CCCCCE"
     ctx.globalCompositeOperation = "multiply"
+    ctx.fillStyle = "white"
+    ctx.rect(0, 0, width, height)
+    ctx.fill()
     ctx.beginPath()
     ctx.shadowBlur = 20
     ctx.shadowColor = "#EEEEF5"
-    ctx.fillStyle = "white"
     ctx.rect(0, 0, width, height)
     ctx.fill()
   }
