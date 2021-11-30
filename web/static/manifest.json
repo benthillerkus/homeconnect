@@ -1,0 +1,36 @@
+{
+  "short_name": "Homeconnect",
+  "name": "Homeconnect",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "16x16"
+    },
+    {
+      "src": "kuhli.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "blitz.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "background_color": "#E6E2DC",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "display": "minimal-ui",
+  "scope": "/",
+  "theme_color": "#E6E2DC",
+  "orientation": "portrait",
+  "shortcuts": [],
+  "description": "IOT fridge storage management"
+}

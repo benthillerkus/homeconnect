@@ -10,7 +10,10 @@ const config = {
         "process.env": process.env
       }
     },
-    trailingSlash: "never"
+    trailingSlash: "never",
+    serviceWorker: {
+      files: _ => true
+    }
   }
 }
 
