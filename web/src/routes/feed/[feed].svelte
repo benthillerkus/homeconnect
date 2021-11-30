@@ -8,7 +8,7 @@
       }
     }
 
-    const res = await fetch("api/v1/images")
+    const res = await fetch("/api/v1/images")
     const content = await res.json()
 
     return {
