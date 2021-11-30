@@ -94,7 +94,7 @@
 </script>
 
 <section bind:this={card} on:mousemove={handleMousemove} on:pointerdown={handleDoubletap}>
-  <canvas bind:this={canvas} height={height} width={width} />
+  <canvas bind:this={canvas} {height} {width} />
   {#if !loaded}
     <div transition:fade={{ duration: 2500 }} id="overlay" />
   {/if}

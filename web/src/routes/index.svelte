@@ -6,7 +6,7 @@
   import Card from "$lib/card.svelte"
 
   let data = {
-    url: "https://jobqljkvqwosdzpsmins.supabase.in/storage/v1/object/public/images/testimg2.jpg"
+    url: "static/kühli image post.svg"
   }
 </script>
 
