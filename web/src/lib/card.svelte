@@ -13,8 +13,8 @@
 
   let canvas
   let ctx
-  let width
-  let height
+  const width = 356
+  const height = 300
   let img
   let loaded = false
 
@@ -47,12 +47,13 @@
   }
 
   onMount(async () => {
+    canvas.width = width
+    canvas.height = height
+
     const io = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           ctx = canvas.getContext("2d")
-          canvas.width = canvas.clientWidth
-          canvas.height = canvas.clientHeight
           img = new Image()
           img.onload = initImage
           img.src = data.url
@@ -93,7 +94,7 @@
 </script>
 
 <section bind:this={card} on:mousemove={handleMousemove} on:pointerdown={handleDoubletap}>
-  <canvas bind:this={canvas} bind:clientHeight={height} bind:clientWidth={width} />
+  <canvas bind:this={canvas} height={height} width={width} />
   {#if !loaded}
     <div transition:fade={{ duration: 2500 }} id="overlay" />
   {/if}
