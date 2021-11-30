@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /licenses
+Allow: /$
+Disallow: /

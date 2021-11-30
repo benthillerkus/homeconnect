@@ -10,6 +10,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Homeconnect</title>
+</svelte:head>
+
 <main>
   <hgroup>
     <h1>Ein soziales Netzwerk<br />für Kühlschränke</h1>
