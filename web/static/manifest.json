@@ -27,7 +27,7 @@
   "background_color": "#E6E2DC",
   "prefer_related_applications": false,
   "related_applications": [],
-  "display": "minimal-ui",
+  "display": "standalone",
   "scope": "/",
   "theme_color": "#E6E2DC",
   "orientation": "portrait",
