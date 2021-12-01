@@ -4,6 +4,7 @@
 
 <script>
   import Heart from "$lib/heart.svelte"
+  import Share from "$lib/share.svelte"
   import { onMount } from "svelte"
   import { fade } from "svelte/transition"
   import "$lib/inset.js"
@@ -102,6 +103,7 @@
     <span>{width}x{height}</span>
   </div>
   <div id="actions">
+    <Share onclick={console.log} />
     <Heart {liked} />
   </div>
 </section>
@@ -182,5 +184,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
+    gap: 0.3rem;
   }
 </style>
