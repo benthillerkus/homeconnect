@@ -91,15 +91,19 @@
     aspect-ratio: 1;
   }
 
+  hgroup {
+    text-align: center;
+    line-height: 2rem;
+  }
+
   @media only screen and (min-width: 650px) {
     #copy {
       flex-direction: row;
     }
-  }
 
-  hgroup {
-    text-align: end;
-    line-height: 2rem;
+    hgroup {
+      text-align: end;
+    }
   }
 
   h1 {
