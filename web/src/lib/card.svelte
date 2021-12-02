@@ -79,12 +79,18 @@
     })
   }
 
-  function handleShare(event) {
+  async function handleShare() {
+    const blob = await (await fetch(canvas.toDataURL())).blob()
     navigator.share({
-      title: "Homeconnect Image",
-      text: "An image on the Homeconnect website",
-      url: "https://homeconnect.bent.party",
-      files: canvas.toDataURL("image/png")
+      title: "Homeconnect",
+      text: "Image from Homeconnect",
+      url: window.location.origin,
+      files: [
+        new File([blob], "homeconnect.png", {
+          type: blob.type,
+          lastModified: new Date().getTime()
+        })
+      ]
     })
   }
 
