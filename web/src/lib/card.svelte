@@ -19,7 +19,7 @@
   let img
   let loaded = false
 
-  function initImage() {
+  function drawImage() {
     loaded = true
 
     const aspect = width / height
@@ -32,15 +32,30 @@
       ctx.drawImage(img, (width - newWidth) / 2, 0, newWidth, height)
     }
 
-    ctx.beginPath()
+    // color correction
+    ctx.fillStyle = "A6FF00"
+    ctx.globalCompositeOperation = "divide"
+    ctx.globalAlpha = 0.17
+    ctx.fillRect(0, 0, width, height)
+
+    // filter
+    const gradient = ctx.createLinearGradient(0, 0, 0, height)
+    gradient.addColorStop(0, "pink")
+    gradient.addColorStop(1, "lightblue")
+    ctx.globalCompositeOperation = "soft-light"
+    ctx.globalAlpha = 0.8
+    ctx.fillStyle = gradient
+    ctx.fillRect(0, 0, width, height)
+    
+    // inset shadow
     ctx.shadowInset = true
     ctx.shadowBlur = 5
     ctx.shadowColor = "#CCCCCE"
     ctx.globalCompositeOperation = "multiply"
+    ctx.globalAlpha = 1
     ctx.fillStyle = "white"
     ctx.rect(0, 0, width, height)
     ctx.fill()
-    ctx.beginPath()
     ctx.shadowBlur = 20
     ctx.shadowColor = "#EEEEF5"
     ctx.rect(0, 0, width, height)
@@ -56,8 +71,8 @@
         if (entry.isIntersecting) {
           ctx = canvas.getContext("2d")
           img = new Image()
-          img.crossOrigin = "Anonymous";
-          img.onload = initImage
+          img.crossOrigin = "Anonymous"
+          img.onload = drawImage
           img.src = data.url
           observer.disconnect()
         }
@@ -109,12 +124,31 @@
       }
     }
   }
+
+  const swipePosition = {x: 0, y: 0};
+
+  function handleSwipe(event) {
+    if (event.pressure == 0) return
+    console.log(event)
+    event.preventDefault();
+    const deltaX = event.x - swipePosition.x;
+
+    if (Math.abs(deltaX) > 100) {
+      if (deltaX > 0) {
+        liked = true;
+      } else {
+        liked = false;
+      }
+    }
+  }
 </script>
 
 <section bind:this={card} on:mousemove={handleMousemove} on:pointerdown={handleDoubletap}>
   <canvas bind:this={canvas} {height} {width} />
   {#if !loaded}
     <div transition:fade={{ duration: 2500 }} id="overlay" />
+  {:else}
+    <div on:pointermove={handleSwipe} id="filter" />
   {/if}
   <div id="info">
     <span>{width}x{height}</span>
@@ -186,9 +220,17 @@
     top: 0;
     width: 100%;
     height: 100%;
-    content: "";
     border-radius: 8px;
     background: black;
+  }
+
+  #filter {
+    grid-area: image;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
 
   #info {
