@@ -79,6 +79,15 @@
     })
   }
 
+  function handleShare(event) {
+    navigator.share({
+      title: "Homeconnect Image",
+      text: "An image on the Homeconnect website",
+      url: "https://homeconnect.bent.party",
+      files: canvas.toDataURL("image/png")
+    })
+  }
+
   let liked
   let lastTouch = 0
   function handleDoubletap(event) {
@@ -103,7 +112,7 @@
     <span>{width}x{height}</span>
   </div>
   <div id="actions">
-    <Share onclick={console.log} />
+    <Share onclick={handleShare} />
     <Heart {liked} />
   </div>
 </section>
