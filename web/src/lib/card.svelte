@@ -102,7 +102,7 @@
       const now = Date.now()
       if (now - lastTouch < 500) {
         event.preventDefault()
-        navigator.vibrate([50, 50, 50])
+        navigator.vibrate([75, 25, 50])
         liked = !liked
       } else {
         lastTouch = now
