@@ -56,6 +56,7 @@
         if (entry.isIntersecting) {
           ctx = canvas.getContext("2d")
           img = new Image()
+          img.crossOrigin = "Anonymous";
           img.onload = initImage
           img.src = data.url
           observer.disconnect()
