@@ -46,7 +46,7 @@
     ctx.globalAlpha = 0.8
     ctx.fillStyle = gradient
     ctx.fillRect(0, 0, width, height)
-    
+
     // inset shadow
     ctx.shadowInset = true
     ctx.shadowBlur = 5
@@ -125,19 +125,19 @@
     }
   }
 
-  const swipePosition = {x: 0, y: 0};
+  const swipePosition = { x: 0, y: 0 }
 
   function handleSwipe(event) {
     if (event.pressure == 0) return
     console.log(event)
-    event.preventDefault();
-    const deltaX = event.x - swipePosition.x;
+    event.preventDefault()
+    const deltaX = event.x - swipePosition.x
 
     if (Math.abs(deltaX) > 100) {
       if (deltaX > 0) {
-        liked = true;
+        liked = true
       } else {
-        liked = false;
+        liked = false
       }
     }
   }

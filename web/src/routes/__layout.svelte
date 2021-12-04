@@ -1,3 +1,14 @@
+<script>
+  import { goto } from "$app/navigation"
+  if (typeof document !== "undefined") {
+    document.addEventListener("keyup", event => {
+      if (event.key === "Escape") {
+        goto("squarespace")
+      }
+    })
+  }
+</script>
+
 <header>
   <h1>Homeconnect</h1>
 </header>

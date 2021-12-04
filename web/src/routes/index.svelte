@@ -29,7 +29,7 @@
   <section id="copy">
     <hgroup>
       <h1>Ein soziales Netzwerk<br />für Kühlschränke</h1>
-      <p><i>fridge storage management</i></p>
+      <p><i>fridge storage management<br />on the blockchain</i></p>
     </hgroup>
     <Card {data} />
   </section>
@@ -95,6 +95,15 @@
     text-align: center;
     line-height: 2rem;
   }
+  h1 {
+    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  }
+
+  p {
+    margin-top: 10px;
+    line-height: 1.1rem;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  }
 
   @media only screen and (min-width: 650px) {
     #copy {
@@ -104,13 +113,5 @@
     hgroup {
       text-align: end;
     }
-  }
-
-  h1 {
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  }
-
-  p {
-    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   }
 </style>
