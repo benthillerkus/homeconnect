@@ -32,26 +32,33 @@ export async function post(request) {
 }
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-export async function get({ params }) {
-  const res = await supabase.storage.from(bucketName).list("", {
-    sortBy: { column: "created_at", order: "desc" }
-  })
+export async function get(request) {
+  if (request.headers.authorization === `Bearer ${import.meta.env.VITE_HOMECONNECT_ALLOW_VIEW}`) {
+    const res = await supabase.storage.from(bucketName).list("", {
+      sortBy: { column: "created_at", order: "desc" }
+    })
 
-  res.data?.forEach(image => {
-    // image.url = supabase.storage.from("images").getPublicUrl(image.id).publicURL
-    image.url = `${
-      import.meta.env.VITE_PUBLIC_SUPABASE_URL
-    }/storage/v1/object/public/${bucketName}/${image.name}`
-    delete image.id
-    delete image.last_accessed_at
-    delete image.last_modified_at
-  })
+    res.data?.forEach(image => {
+      // image.url = supabase.storage.from("images").getPublicUrl(image.id).publicURL
+      image.url = `${
+        import.meta.env.VITE_PUBLIC_SUPABASE_URL
+      }/storage/v1/object/public/${bucketName}/${image.name}`
+      delete image.id
+      delete image.last_accessed_at
+      delete image.last_modified_at
+    })
 
-  return {
-    status: res.status,
-    headers: {
-      "content-type": "application/json"
-    },
-    body: JSON.stringify(res)
+    return {
+      status: res.status,
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(res)
+    }
+  } else {
+    return {
+      status: 401,
+      body: "Invalid Authorization Token"
+    }
   }
 }

@@ -1,14 +1,21 @@
 <script context="module">
+  import { goto } from "$app/navigation"
+
   /** @type {import('@sveltejs/kit').Load} */
   export async function load({ page, fetch }) {
-    if (page.params.feed !== import.meta.env.VITE_HOMECONNECT_ALLOW_VIEW) {
+    const res = await fetch("/api/v1/images", {
+      headers: {
+        authorization: `Bearer ${page.params.feed}`
+      }
+    })
+
+    if (res.status !== 200) {
       return {
         status: 302,
         redirect: "/"
       }
     }
 
-    const res = await fetch("/api/v1/images")
     const content = await res.json()
 
     return {
