@@ -7,7 +7,6 @@
   import Share from "$lib/share.svelte"
   import { onMount } from "svelte"
   import { fade } from "svelte/transition"
-  import "$lib/inset.js"
 
   export let data
   export let delay = 0
@@ -39,34 +38,20 @@
       ctx.drawImage(img, (width - newWidth) / 2, 0, newWidth, height)
     }
 
-    // // color correction
-    // ctx.fillStyle = "A6FF00"
-    // ctx.globalCompositeOperation = "divide"
-    // ctx.globalAlpha = 0.17
-    // ctx.fillRect(0, 0, width, height)
+    // color correction
+    ctx.fillStyle = "A6FF00"
+    ctx.globalCompositeOperation = "divide"
+    ctx.globalAlpha = 0.17
+    ctx.fillRect(0, 0, width, height)
 
     // filter
+    ctx.globalCompositeOperation = "soft-light"
+    ctx.globalAlpha = 0.8
     const gradient = ctx.createLinearGradient(0, 0, 0, height)
     gradient.addColorStop(0, "pink")
     gradient.addColorStop(1, "lightblue")
-    ctx.globalCompositeOperation = "soft-light"
-    ctx.globalAlpha = 0.8
     ctx.fillStyle = gradient
     ctx.fillRect(filterSwipeProgress, 0, width, height)
-
-    // // inset shadow
-    // ctx.shadowInset = true
-    // ctx.shadowBlur = 5
-    // ctx.shadowColor = "#CCCCCE"
-    // ctx.globalCompositeOperation = "multiply"
-    // ctx.globalAlpha = 1
-    // ctx.fillStyle = "white"
-    // ctx.rect(0, 0, width, height)
-    // ctx.fill()
-    // ctx.shadowBlur = 20
-    // ctx.shadowColor = "#EEEEF5"
-    // ctx.rect(0, 0, width, height)
-    // ctx.fill()
   }
 
   onMount(async () => {
@@ -132,54 +117,26 @@
     }
   }
 
-  const swipePosition = { x: 0, y: 0 }
-  let lastSwipe;
-
-  function handleSwipe(event) {
-    if (event.pressure == 0) return
-    event.preventDefault()
-    if (typeof lastSwipe === "undefined" || event.timeStamp - lastSwipe > 50) {
-      lastSwipe = event.timeStamp
+  let newFilterSwipeProgress = 0
+  let swipeAnimationRunning = false
+  function animateSwipe() {
+    swipeAnimationRunning = true
+    filterSwipeProgress += (newFilterSwipeProgress - filterSwipeProgress) * 0.1
+    if (Math.abs(filterSwipeProgress - newFilterSwipeProgress) > 0.5) {
+      window.requestAnimationFrame(animateSwipe)
     } else {
-      const dx = swipePosition.x - event.clientX
-      const dy = swipePosition.y - event.clientY
-      // if (Math.abs(dx) > Math.abs(dy)) {
-      //   if (dx > 0) {
-      //     liked = true
-      //   } else {
-      //     liked = false
-      //   }
-      // } else {
-      //   if (dy > 0) {
-      //     liked = false
-      //   } else {
-      //     liked = true
-      //   }
-      // }
-      filterSwipeProgress -= (dx * 1.5)
-      window.requestAnimationFrame(drawImage)
-      clearTimeout(timeoutHandle)
-      timeoutHandle = setTimeout(snapSwipe, 600)
+      filterSwipeProgress = newFilterSwipeProgress
+      swipeAnimationRunning = false
     }
-    swipePosition.x = event.clientX
-    swipePosition.y = event.clientY
+    window.requestAnimationFrame(drawImage)
   }
 
-  let timeoutHandle;
-  function snapSwipe() {
-    const newFilterSwipeProgress = Math.round(filterSwipeProgress / width) * width
+  function changeFilter(id) {
+    newFilterSwipeProgress = id * width
 
-    function animateSwipe() {
-      filterSwipeProgress += (-filterSwipeProgress + newFilterSwipeProgress) * 0.1
-      if (Math.abs(filterSwipeProgress - newFilterSwipeProgress) > 0.5) {
-        window.requestAnimationFrame(animateSwipe)
-      } else {
-        filterSwipeProgress = newFilterSwipeProgress
-      }
-      window.requestAnimationFrame(drawImage)
+    if (!swipeAnimationRunning) {
+      animateSwipe()
     }
-
-    animateSwipe()
   }
 </script>
 
@@ -188,7 +145,11 @@
   {#if !loaded}
     <div transition:fade={{ duration: 2500 }} id="overlay" />
   {:else}
-    <div on:pointermove={handleSwipe} id="filter" />
+    <div id="filter">
+      <button on:click={() => changeFilter(0)}>◀</button><button on:click={() => changeFilter(1)}
+        >▶</button
+      >
+    </div>
   {/if}
   <div id="info">
     <span>{width}x{height}</span>
@@ -201,11 +162,13 @@
 
 <style>
   section {
+    --outer-border-radius: 18px;
+    --inner-border-radius: 8px;
     display: grid;
     grid: "image image" auto "info actions" 40px / 50% auto;
     min-width: 388px;
     gap: 1rem;
-    border-radius: 18px;
+    border-radius: var(--outer-border-radius);
     aspect-ratio: 6 / 6;
     padding: min(16px, 5%);
     transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -220,7 +183,7 @@
     z-index: -3;
     width: 100%;
     height: 100%;
-    border-radius: 18px;
+    border-radius: var(--outer-border-radius);
     box-shadow: 0 0 60px rgba(0, 0, 0, 0.144);
     opacity: 0;
     transition: opacity 0.3s ease-out;
@@ -249,7 +212,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    border-radius: var(--inner-border-radius);
     background-color: black;
     user-select: none;
   }
@@ -261,7 +224,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    border-radius: var(--inner-border-radius);
     background: black;
   }
 
@@ -272,6 +235,28 @@
     top: 0;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--inner-border-radius);
+    box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.103), inset 0 0 10px 5px rgba(0, 0, 0, 0.089);
+  }
+
+  #filter:hover > button {
+    opacity: 1;
+  }
+
+  #filter > button {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    border: none;
+    border-radius: 20px;
+    margin: 8px;
+    padding-inline: 16px;
+    padding-block: 2px;
+    color: white;
+    background: rgba(255, 255, 255, 0.185);
   }
 
   #info {
