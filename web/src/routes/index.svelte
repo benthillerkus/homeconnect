@@ -4,6 +4,7 @@
 
 <script>
   import Card from "$lib/card.svelte"
+  import { goto } from "$app/navigation"
 
   let data = {
     url: "kuhli-image-post.svg"
@@ -18,7 +19,7 @@
 
 <main>
   <section id="login">
-    <form action={`/feed/${code}`}>
+    <form on:submit={goto(`/feed/${code}`)}>
       <input id="code" bind:value={code} type="text" placeholder="Hast du einen Code?" />
       <label for="code">
         <span aria-hidden="false" style="display: none;">Hast du einen Code?</span>

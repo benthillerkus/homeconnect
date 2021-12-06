@@ -1,20 +1,20 @@
 <form action="wp-login.php">
   <label>
-    email address<br>
+    email address<br />
     <input type="text" placeholder="name@example.com" />
   </label>
   <label>
-    password<br>
+    password<br />
     <input type="password" placeholder="Password" />
   </label>
-  <br>
+  <br />
   <button>LOG IN</button>
 </form>
 
 <style>
-
-  label, button {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  label,
+  button {
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
     font-variant-caps: small-caps;
     font-weight: 500;
     opacity: 0.4;
@@ -22,11 +22,11 @@
     letter-spacing: 0.05em;
     width: 100%;
   }
-  
+
   input {
     width: 100%;
     height: 3rem;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
     font-weight: initial;
     font-variant-caps: initial;
     border: none;
