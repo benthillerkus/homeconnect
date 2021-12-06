@@ -19,8 +19,15 @@
   let img
   let loaded = false
 
+  let filterSwipeProgress = 0
+
   function drawImage() {
     loaded = true
+
+    ctx.shadowInset = false
+    ctx.globalCompositeOperation = "source-over"
+    ctx.globalAlpha = 1
+    ctx.clearRect(0, 0, width, height)
 
     const aspect = width / height
     const aspectImage = img.naturalWidth / img.naturalHeight
@@ -32,11 +39,11 @@
       ctx.drawImage(img, (width - newWidth) / 2, 0, newWidth, height)
     }
 
-    // color correction
-    ctx.fillStyle = "A6FF00"
-    ctx.globalCompositeOperation = "divide"
-    ctx.globalAlpha = 0.17
-    ctx.fillRect(0, 0, width, height)
+    // // color correction
+    // ctx.fillStyle = "A6FF00"
+    // ctx.globalCompositeOperation = "divide"
+    // ctx.globalAlpha = 0.17
+    // ctx.fillRect(0, 0, width, height)
 
     // filter
     const gradient = ctx.createLinearGradient(0, 0, 0, height)
@@ -45,21 +52,21 @@
     ctx.globalCompositeOperation = "soft-light"
     ctx.globalAlpha = 0.8
     ctx.fillStyle = gradient
-    ctx.fillRect(0, 0, width, height)
+    ctx.fillRect(filterSwipeProgress, 0, width, height)
 
-    // inset shadow
-    ctx.shadowInset = true
-    ctx.shadowBlur = 5
-    ctx.shadowColor = "#CCCCCE"
-    ctx.globalCompositeOperation = "multiply"
-    ctx.globalAlpha = 1
-    ctx.fillStyle = "white"
-    ctx.rect(0, 0, width, height)
-    ctx.fill()
-    ctx.shadowBlur = 20
-    ctx.shadowColor = "#EEEEF5"
-    ctx.rect(0, 0, width, height)
-    ctx.fill()
+    // // inset shadow
+    // ctx.shadowInset = true
+    // ctx.shadowBlur = 5
+    // ctx.shadowColor = "#CCCCCE"
+    // ctx.globalCompositeOperation = "multiply"
+    // ctx.globalAlpha = 1
+    // ctx.fillStyle = "white"
+    // ctx.rect(0, 0, width, height)
+    // ctx.fill()
+    // ctx.shadowBlur = 20
+    // ctx.shadowColor = "#EEEEF5"
+    // ctx.rect(0, 0, width, height)
+    // ctx.fill()
   }
 
   onMount(async () => {
@@ -133,25 +140,46 @@
     event.preventDefault()
     if (typeof lastSwipe === "undefined" || event.timeStamp - lastSwipe > 50) {
       lastSwipe = event.timeStamp
-      swipePosition.x = event.clientX
-      swipePosition.y = event.clientY
     } else {
       const dx = swipePosition.x - event.clientX
       const dy = swipePosition.y - event.clientY
-      if (Math.abs(dx) > Math.abs(dy)) {
-        if (dx > 0) {
-          liked = true
-        } else {
-          liked = false
-        }
-      } else {
-        if (dy > 0) {
-          liked = false
-        } else {
-          liked = true
-        }
-      }
+      // if (Math.abs(dx) > Math.abs(dy)) {
+      //   if (dx > 0) {
+      //     liked = true
+      //   } else {
+      //     liked = false
+      //   }
+      // } else {
+      //   if (dy > 0) {
+      //     liked = false
+      //   } else {
+      //     liked = true
+      //   }
+      // }
+      filterSwipeProgress -= (dx * 1.5)
+      window.requestAnimationFrame(drawImage)
+      clearTimeout(timeoutHandle)
+      timeoutHandle = setTimeout(snapSwipe, 600)
     }
+    swipePosition.x = event.clientX
+    swipePosition.y = event.clientY
+  }
+
+  let timeoutHandle;
+  function snapSwipe() {
+    const newFilterSwipeProgress = Math.round(filterSwipeProgress / width) * width
+
+    function animateSwipe() {
+      filterSwipeProgress += (-filterSwipeProgress + newFilterSwipeProgress) * 0.1
+      if (Math.abs(filterSwipeProgress - newFilterSwipeProgress) > 0.5) {
+        window.requestAnimationFrame(animateSwipe)
+      } else {
+        filterSwipeProgress = newFilterSwipeProgress
+      }
+      window.requestAnimationFrame(drawImage)
+    }
+
+    animateSwipe()
   }
 </script>
 
@@ -223,6 +251,7 @@
     height: 100%;
     border-radius: 8px;
     background-color: black;
+    user-select: none;
   }
 
   #overlay {
