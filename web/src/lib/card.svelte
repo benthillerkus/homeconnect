@@ -126,18 +126,30 @@
   }
 
   const swipePosition = { x: 0, y: 0 }
+  let lastSwipe;
 
   function handleSwipe(event) {
     if (event.pressure == 0) return
-    console.log(event)
     event.preventDefault()
-    const deltaX = event.x - swipePosition.x
-
-    if (Math.abs(deltaX) > 100) {
-      if (deltaX > 0) {
-        liked = true
+    if (typeof lastSwipe === "undefined" || event.timeStamp - lastSwipe > 50) {
+      lastSwipe = event.timeStamp
+      swipePosition.x = event.clientX
+      swipePosition.y = event.clientY
+    } else {
+      const dx = swipePosition.x - event.clientX
+      const dy = swipePosition.y - event.clientY
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0) {
+          liked = true
+        } else {
+          liked = false
+        }
       } else {
-        liked = false
+        if (dy > 0) {
+          liked = false
+        } else {
+          liked = true
+        }
       }
     }
   }
