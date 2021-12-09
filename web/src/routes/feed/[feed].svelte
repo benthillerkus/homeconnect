@@ -42,7 +42,7 @@
 <main>
   {#if data}
     {#each data as data, i}
-      <Card {data} delay={i * 500} />
+      <Card {data} />
     {/each}
   {:else}
     <code>{JSON.stringify(error)}</code>

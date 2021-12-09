@@ -9,7 +9,6 @@
   import { fade } from "svelte/transition"
 
   export let data
-  export let delay = 0
 
   let canvas
   let ctx
