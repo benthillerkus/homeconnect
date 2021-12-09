@@ -77,6 +77,10 @@
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   }
 
+  input[type="text"]:focus {
+    outline: none;
+  }
+
   input,
   button {
     border-radius: 0px;
