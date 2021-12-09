@@ -19,7 +19,7 @@
 
   const filters = [
     {
-      name: "Duisburg",
+      name: "Schalke",
       filter: ctx => {
         ctx.globalCompositeOperation = "soft-light"
         ctx.globalAlpha = 0.8
@@ -46,11 +46,11 @@
       }
     },
     {
-      name: "Schalke",
+      name: "Duisburg",
       filter: ctx => {
-        ctx.globalCompositeOperation = "screen"
-        ctx.globalAlpha = 0.6
-        ctx.fillStyle = "blue"
+        ctx.globalCompositeOperation = "color"
+        ctx.globalAlpha = 0.8
+        ctx.fillStyle = "white"
       }
     },
     {
