@@ -182,19 +182,17 @@
     <div transition:fade={{ duration: 2500 }} id="overlay" />
   {:else}
     <div id="filter">
-      <button class="arrow" on:click={() => changeFilter(currentId - 1)}>◀</button>
+      {#if currentId > 0}
+        <button transition:fade={{ duration: 200 }} id="left" on:click={() => changeFilter(currentId - 1)}>◀</button>
+      {/if}
       <div>
         {#each filters as filter, id}
-          <input
-            type="radio"
-            value={id}
-            class="dot"
-            bind:group={currentId}
-            on:click={() => changeFilter(id)}
-          />
+          <input type="radio" value={id} bind:group={currentId} on:click={() => changeFilter(id)} />
         {/each}
       </div>
-      <button on:click={() => changeFilter(currentId + 1)}>▶</button>
+      {#if currentId < filters.length - 1}
+        <button transition:fade={{ duration: 200 }} id="right" on:click={() => changeFilter(currentId + 1)}>▶</button>
+      {/if}
     </div>
   {/if}
   <div id="info">
@@ -281,12 +279,23 @@
     top: 0;
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    padding: 10px;
+    grid-template-columns: [left] 1fr [dots] 5fr [right] 1fr;
     border-radius: var(--inner-border-radius);
     box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.103), inset 0 0 10px 5px rgba(0, 0, 0, 0.089);
+    --barely-visible: rgba(255, 255, 255, 0.185);
+    --a-bit-more-visible: rgba(255, 255, 255, 0.37);
+    --highly-visible: rgba(255, 255, 255, 0.623);
+    --fully-visible: rgba(255, 255, 255, 1);
+  }
+
+  #left {
+    grid-column: left;
+  }
+
+  #right {
+    grid-column: right;
   }
 
   #filter > * {
@@ -299,39 +308,57 @@
   }
 
   #filter > button {
+    align-self: center;
     border: none;
     border-radius: 20px;
-    margin: 8px;
     padding-inline: 16px;
     padding-block: 2px;
-    color: white;
-    background: rgba(255, 255, 255, 0.185);
+    height: 30px;
+    color: var(--fully-visible);
+  }
+
+  #filter > button,
+  input[type="radio"] {
+    background: var(--barely-visible);
+    transition: background 0.2s ease;
+  }
+
+  #filter > button:hover,
+  input[type="radio"]:hover {
+    background: var(--a-bit-more-visible);
+  }
+  #filter > button:active,
+  input[type="radio"]:active {
+    background: var(--highly-visible);
+  }
+  #filter > div > input[type="radio"]:checked {
+    background: var(--fully-visible);
+  }
+
+  button:focus,
+  input:focus {
+    outline: none;
   }
 
   #filter > div {
+    grid-column: dots;
     display: flex;
     justify-content: center;
     align-items: flex-end;
     width: 100%;
-    height: 90%;
+    height: 100%;
     gap: 5px;
   }
 
-  .dot {
+  input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     margin: 0;
     border: none;
     border-radius: 20px;
-    height: 9px;
-    width: 9px;
-    background: rgba(255, 255, 255, 0.185);
-  }
-
-  #filter > div > input:checked {
-    background: rgba(255, 255, 255, 0.5);
-  }
-
-  #filter > div > input:focus {
-    outline: none;
+    height: 8px;
+    width: 12px;
   }
 
   #info {
