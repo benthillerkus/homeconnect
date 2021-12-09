@@ -101,7 +101,6 @@
   }
 
   main > code {
-    color-scheme: dark;
     position: absolute;
     top: 45%;
     color: lightcoral;
