@@ -17,10 +17,6 @@
   let img
   let loaded = false
 
-  let currentFilterDrawOffsetAtAnimationStart = 0
-  let oldId = 1
-  let currentId = 0
-
   const filters = [
     ctx => {
       ctx.globalCompositeOperation = "soft-light"
@@ -32,8 +28,14 @@
     },
     ctx => {
       ctx.globalCompositeOperation = "overlay"
-      ctx.globalAlpha = 0.5
+      ctx.globalAlpha = 0.2
       ctx.fillStyle = "red"
+    },
+    ctx => {
+      // no filter
+      ctx.globalCompositeOperation = "source-over"
+      ctx.globalAlpha = 0
+      ctx.fillStyle = "black"
     },
     ctx => {
       ctx.globalCompositeOperation = "screen"
@@ -41,6 +43,10 @@
       ctx.fillStyle = "blue"
     }
   ]
+
+  let currentFilterDrawOffsetAtAnimationStart = 0
+  let currentId = filters.length >> 1
+  let oldId = currentId - 1
 
   function drawImage() {
     loaded = true
@@ -61,15 +67,10 @@
     }
 
     // color correction
-    ctx.fillStyle = "A6FF00"
-    ctx.globalCompositeOperation = "divide"
-    ctx.globalAlpha = 0.17
+    ctx.fillStyle = "#D900FF"
+    ctx.globalCompositeOperation = "color-dodge"
+    ctx.globalAlpha = 0.12
     ctx.fillRect(0, 0, width, height)
-
-    console.log(
-      currentFilterDrawOffsetAtAnimationStart - width,
-      currentFilterDrawOffsetAtAnimationStart + width * (oldId < currentId ? 1 : -1)
-    )
 
     // filter
     filters[currentId](ctx)
@@ -183,7 +184,11 @@
   {:else}
     <div id="filter">
       {#if currentId > 0}
-        <button transition:fade={{ duration: 200 }} id="left" on:click={() => changeFilter(currentId - 1)}>◀</button>
+        <button
+          transition:fade={{ duration: 200 }}
+          id="left"
+          on:click={() => changeFilter(currentId - 1)}>◀</button
+        >
       {/if}
       <div>
         {#each filters as filter, id}
@@ -191,7 +196,11 @@
         {/each}
       </div>
       {#if currentId < filters.length - 1}
-        <button transition:fade={{ duration: 200 }} id="right" on:click={() => changeFilter(currentId + 1)}>▶</button>
+        <button
+          transition:fade={{ duration: 200 }}
+          id="right"
+          on:click={() => changeFilter(currentId + 1)}>▶</button
+        >
       {/if}
     </div>
   {/if}
