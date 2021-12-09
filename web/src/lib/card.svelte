@@ -17,14 +17,37 @@
   let img
   let loaded = false
 
-  let filterSwipeProgress = 0
+  let currentFilterDrawOffsetAtAnimationStart = 0
+  let oldId = 1
+  let currentId = 0
+
+  const filters = [
+    ctx => {
+      ctx.globalCompositeOperation = "soft-light"
+      ctx.globalAlpha = 0.8
+      const gradient = ctx.createLinearGradient(0, 0, 0, height)
+      gradient.addColorStop(0, "pink")
+      gradient.addColorStop(1, "lightblue")
+      ctx.fillStyle = gradient
+    },
+    ctx => {
+      ctx.globalCompositeOperation = "overlay"
+      ctx.globalAlpha = 0.5
+      ctx.fillStyle = "red"
+    },
+    ctx => {
+      ctx.globalCompositeOperation = "screen"
+      ctx.globalAlpha = 0.4
+      ctx.fillStyle = "blue"
+    }
+  ]
 
   function drawImage() {
     loaded = true
 
-    ctx.shadowInset = false
     ctx.globalCompositeOperation = "source-over"
     ctx.globalAlpha = 1
+    ctx.fillStyle = "black"
     ctx.clearRect(0, 0, width, height)
 
     const aspect = width / height
@@ -43,14 +66,16 @@
     ctx.globalAlpha = 0.17
     ctx.fillRect(0, 0, width, height)
 
+    console.log(
+      currentFilterDrawOffsetAtAnimationStart - width,
+      currentFilterDrawOffsetAtAnimationStart + width * (oldId < currentId ? 1 : -1)
+    )
+
     // filter
-    ctx.globalCompositeOperation = "soft-light"
-    ctx.globalAlpha = 0.8
-    const gradient = ctx.createLinearGradient(0, 0, 0, height)
-    gradient.addColorStop(0, "pink")
-    gradient.addColorStop(1, "lightblue")
-    ctx.fillStyle = gradient
-    ctx.fillRect(filterSwipeProgress, 0, width, height)
+    filters[currentId](ctx)
+    ctx.fillRect(currentFilterDrawOffsetAtAnimationStart, 0, width, height)
+    filters[oldId](ctx)
+    ctx.fillRect(getOldFilterDrawOffset(), 0, width, height)
   }
 
   onMount(async () => {
@@ -116,22 +141,34 @@
     }
   }
 
-  let newFilterSwipeProgress = 0
+  let currentFilterDrawOffsetAtAnimationEnd = 0
   let swipeAnimationRunning = false
   function animateSwipe() {
     swipeAnimationRunning = true
-    filterSwipeProgress += (newFilterSwipeProgress - filterSwipeProgress) * 0.1
-    if (Math.abs(filterSwipeProgress - newFilterSwipeProgress) > 0.5) {
+    currentFilterDrawOffsetAtAnimationStart +=
+      (currentFilterDrawOffsetAtAnimationEnd - currentFilterDrawOffsetAtAnimationStart) * 0.1
+    if (
+      Math.abs(currentFilterDrawOffsetAtAnimationStart - currentFilterDrawOffsetAtAnimationEnd) >
+      0.5
+    ) {
       window.requestAnimationFrame(animateSwipe)
     } else {
-      filterSwipeProgress = newFilterSwipeProgress
+      currentFilterDrawOffsetAtAnimationStart = currentFilterDrawOffsetAtAnimationEnd
       swipeAnimationRunning = false
     }
     window.requestAnimationFrame(drawImage)
   }
 
+  function getOldFilterDrawOffset() {
+    return currentFilterDrawOffsetAtAnimationStart + width * (oldId > currentId ? 1 : -1)
+  }
+
   function changeFilter(id) {
-    newFilterSwipeProgress = id * width
+    if (id === currentId || id < 0 || id >= filters.length) return
+    oldId = currentId
+    currentId = id
+    currentFilterDrawOffsetAtAnimationStart = oldId < currentId ? width : -width
+    currentFilterDrawOffsetAtAnimationEnd = 0
 
     if (!swipeAnimationRunning) {
       animateSwipe()
@@ -145,9 +182,19 @@
     <div transition:fade={{ duration: 2500 }} id="overlay" />
   {:else}
     <div id="filter">
-      <button on:click={() => changeFilter(0)}>◀</button><button on:click={() => changeFilter(1)}
-        >▶</button
-      >
+      <button class="arrow" on:click={() => changeFilter(currentId - 1)}>◀</button>
+      <div>
+        {#each filters as filter, id}
+          <input
+            type="radio"
+            value={id}
+            class="dot"
+            bind:group={currentId}
+            on:click={() => changeFilter(id)}
+          />
+        {/each}
+      </div>
+      <button on:click={() => changeFilter(currentId + 1)}>▶</button>
     </div>
   {/if}
   <div id="info">
@@ -242,13 +289,16 @@
     box-shadow: inset 0 0 3px 1px rgba(0, 0, 0, 0.103), inset 0 0 10px 5px rgba(0, 0, 0, 0.089);
   }
 
-  #filter:hover > button {
+  #filter > * {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  #filter:hover > * {
     opacity: 1;
   }
 
   #filter > button {
-    opacity: 0;
-    transition: opacity 0.2s ease;
     border: none;
     border-radius: 20px;
     margin: 8px;
@@ -256,6 +306,32 @@
     padding-block: 2px;
     color: white;
     background: rgba(255, 255, 255, 0.185);
+  }
+
+  #filter > div {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100%;
+    height: 90%;
+    gap: 5px;
+  }
+
+  .dot {
+    margin: 0;
+    border: none;
+    border-radius: 20px;
+    height: 9px;
+    width: 9px;
+    background: rgba(255, 255, 255, 0.185);
+  }
+
+  #filter > div > input:checked {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  #filter > div > input:focus {
+    outline: none;
   }
 
   #info {
