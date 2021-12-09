@@ -112,11 +112,11 @@ void setup()
 
   Serial.println("Taking picture...");
   camera_fb_t *fb = NULL;
-  digitalWrite(INTERNAL_LED, LOW);
+  digitalWrite(INTERNAL_LED, HIGH);
   delay(100);
   fb = esp_camera_fb_get();
   delay(100);
-  digitalWrite(INTERNAL_LED, HIGH);
+  digitalWrite(INTERNAL_LED, LOW);
   if (!fb)
   {
     Serial.println("Camera capture failed");
