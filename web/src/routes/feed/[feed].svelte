@@ -1,6 +1,4 @@
 <script context="module">
-  import { goto } from "$app/navigation"
-
   /** @type {import('@sveltejs/kit').Load} */
   export async function load({ page, fetch }) {
     const res = await fetch("/api/v1/images", {
@@ -30,7 +28,7 @@
 
 <script>
   import Card from "$lib/card.svelte"
-
+  
   export let data
   export let error
 </script>
