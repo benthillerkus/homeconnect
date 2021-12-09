@@ -33,7 +33,7 @@
       name: "Köln",
       filter: ctx => {
         ctx.globalCompositeOperation = "overlay"
-        ctx.globalAlpha = 0.2
+        ctx.globalAlpha = 0.3
         ctx.fillStyle = "red"
       }
     },
@@ -49,15 +49,28 @@
       name: "Schalke",
       filter: ctx => {
         ctx.globalCompositeOperation = "screen"
-        ctx.globalAlpha = 0.4
+        ctx.globalAlpha = 0.6
         ctx.fillStyle = "blue"
+      }
+    },
+    {
+      name: "Kino",
+      filter: ctx => {
+        ctx.globalCompositeOperation = "multiply"
+        ctx.globalAlpha = 1.0
+        const gradient = ctx.createLinearGradient(0, 0, 0, height)
+        gradient.addColorStop(0.2, "black"),
+          gradient.addColorStop(0.201, "lightblue"),
+          gradient.addColorStop(0.799, "lightblue")
+        gradient.addColorStop(0.8, "black")
+        ctx.fillStyle = gradient
       }
     }
   ]
 
   let currentFilterDrawOffsetAtAnimationStart = 0
-  let currentId = filters.length >> 1
-  let oldId = currentId - 1
+  export let filterId = filters.length >> 1
+  let oldFilterId = filterId - 1
 
   function drawImage() {
     loaded = true
@@ -84,9 +97,9 @@
     ctx.fillRect(0, 0, width, height)
 
     // filter
-    filters[currentId].filter(ctx)
+    filters[filterId].filter(ctx)
     ctx.fillRect(currentFilterDrawOffsetAtAnimationStart, 0, width, height)
-    filters[oldId].filter(ctx)
+    filters[oldFilterId].filter(ctx)
     ctx.fillRect(getOldFilterDrawOffset(), 0, width, height)
   }
 
@@ -172,14 +185,14 @@
   }
 
   function getOldFilterDrawOffset() {
-    return currentFilterDrawOffsetAtAnimationStart + width * (oldId > currentId ? 1 : -1)
+    return currentFilterDrawOffsetAtAnimationStart + width * (oldFilterId > filterId ? 1 : -1)
   }
 
   function changeFilter(id) {
-    if (id === currentId || id < 0 || id >= filters.length) return
-    oldId = currentId
-    currentId = id
-    currentFilterDrawOffsetAtAnimationStart = oldId < currentId ? width : -width
+    if (id === filterId || id < 0 || id >= filters.length) return
+    oldFilterId = filterId
+    filterId = id
+    currentFilterDrawOffsetAtAnimationStart = oldFilterId < filterId ? width : -width
     currentFilterDrawOffsetAtAnimationEnd = 0
 
     if (!swipeAnimationRunning) {
@@ -194,26 +207,26 @@
     <div transition:fade={{ duration: 2500 }} id="overlay" />
   {:else}
     <div id="filter">
-      {#key currentId}
-        <span in:fade={{ delay: 200 }} out:blur id="filterName">{filters[currentId].name}</span>
+      {#key filterId}
+        <span in:fade={{ delay: 200 }} out:blur id="filterName">{filters[filterId].name}</span>
       {/key}
-      {#if currentId > 0}
+      {#if filterId > 0}
         <button
           transition:fade={{ duration: 200 }}
           id="left"
-          on:click={() => changeFilter(currentId - 1)}>◀</button
+          on:click={() => changeFilter(filterId - 1)}>◀</button
         >
       {/if}
       <div>
         {#each filters as filter, id}
-          <input type="radio" value={id} bind:group={currentId} on:click={() => changeFilter(id)} />
+          <input type="radio" value={id} bind:group={filterId} on:click={() => changeFilter(id)} />
         {/each}
       </div>
-      {#if currentId < filters.length - 1}
+      {#if filterId < filters.length - 1}
         <button
           transition:fade={{ duration: 200 }}
           id="right"
-          on:click={() => changeFilter(currentId + 1)}>▶</button
+          on:click={() => changeFilter(filterId + 1)}>▶</button
         >
       {/if}
     </div>
