@@ -6,7 +6,7 @@
   import Heart from "$lib/heart.svelte"
   import Share from "$lib/share.svelte"
   import { onMount } from "svelte"
-  import { fade } from "svelte/transition"
+  import { fade, blur } from "svelte/transition"
 
   export let data
 
@@ -18,29 +18,40 @@
   let loaded = false
 
   const filters = [
-    ctx => {
-      ctx.globalCompositeOperation = "soft-light"
-      ctx.globalAlpha = 0.8
-      const gradient = ctx.createLinearGradient(0, 0, 0, height)
-      gradient.addColorStop(0, "pink")
-      gradient.addColorStop(1, "lightblue")
-      ctx.fillStyle = gradient
+    {
+      name: "Duisburg",
+      filter: ctx => {
+        ctx.globalCompositeOperation = "soft-light"
+        ctx.globalAlpha = 0.8
+        const gradient = ctx.createLinearGradient(0, 0, 0, height)
+        gradient.addColorStop(0, "pink")
+        gradient.addColorStop(1, "lightblue")
+        ctx.fillStyle = gradient
+      }
     },
-    ctx => {
-      ctx.globalCompositeOperation = "overlay"
-      ctx.globalAlpha = 0.2
-      ctx.fillStyle = "red"
+    {
+      name: "Köln",
+      filter: ctx => {
+        ctx.globalCompositeOperation = "overlay"
+        ctx.globalAlpha = 0.2
+        ctx.fillStyle = "red"
+      }
     },
-    ctx => {
-      // no filter
-      ctx.globalCompositeOperation = "source-over"
-      ctx.globalAlpha = 0
-      ctx.fillStyle = "black"
+    {
+      name: "#nofilter",
+      filter: ctx => {
+        ctx.globalCompositeOperation = "source-over"
+        ctx.globalAlpha = 0
+        ctx.fillStyle = "black"
+      }
     },
-    ctx => {
-      ctx.globalCompositeOperation = "screen"
-      ctx.globalAlpha = 0.4
-      ctx.fillStyle = "blue"
+    {
+      name: "Schalke",
+      filter: ctx => {
+        ctx.globalCompositeOperation = "screen"
+        ctx.globalAlpha = 0.4
+        ctx.fillStyle = "blue"
+      }
     }
   ]
 
@@ -73,9 +84,9 @@
     ctx.fillRect(0, 0, width, height)
 
     // filter
-    filters[currentId](ctx)
+    filters[currentId].filter(ctx)
     ctx.fillRect(currentFilterDrawOffsetAtAnimationStart, 0, width, height)
-    filters[oldId](ctx)
+    filters[oldId].filter(ctx)
     ctx.fillRect(getOldFilterDrawOffset(), 0, width, height)
   }
 
@@ -183,6 +194,9 @@
     <div transition:fade={{ duration: 2500 }} id="overlay" />
   {:else}
     <div id="filter">
+      {#key currentId}
+        <span in:fade={{ delay: 200 }} out:blur id="filterName">{filters[currentId].name}</span>
+      {/key}
       {#if currentId > 0}
         <button
           transition:fade={{ duration: 200 }}
@@ -282,6 +296,7 @@
   }
 
   #filter {
+    user-select: none;
     grid-area: image;
     position: absolute;
     left: 0;
@@ -297,6 +312,15 @@
     --a-bit-more-visible: rgba(255, 255, 255, 0.37);
     --highly-visible: rgba(255, 255, 255, 0.623);
     --fully-visible: rgba(255, 255, 255, 1);
+  }
+
+  #filterName {
+    position: absolute;
+    left: 15px;
+    top: 20px;
+    font-family: "Bradley Hand", "Brush Script MT", "Brush Script Std", cursive;
+    font-size: 1.7rem;
+    color: white;
   }
 
   #left {
