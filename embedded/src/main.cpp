@@ -83,9 +83,52 @@ void setup()
   config.pin_pwdn = PWDN_GPIO_NUM;
   config.pin_reset = RESET_GPIO_NUM;
   config.xclk_freq_hz = 20000000;
-  config.pixel_format = PIXFORMAT_JPEG;
 
-  // init with high specs to pre-allocate larger buffers
+  config.pixel_format = PIXFORMAT_GRAYSCALE;
+  config.frame_size = FRAMESIZE_CIF;
+  config.fb_count = 1;
+
+  // camera init
+  esp_err_t err = esp_camera_init(&config);
+  if (err != ESP_OK)
+  {
+    Serial.printf("Camera init failed with error 0x%x", err);
+    delay(1000);
+    ESP.restart();
+  }
+  camera_fb_t *fb = NULL;
+
+  Serial.println("Testing light conditions...");
+  fb = esp_camera_fb_get();
+  if (!fb)
+  {
+    Serial.println("Camera capture failed");
+    delay(1000);
+    ESP.restart();
+  }
+
+  int num_times_too_bright = 0;
+  for (size_t i = 1; i < fb->len; i *= 2)
+  {
+    Serial.println(fb->buf[i]);
+    Serial.println(i);
+    if (fb->buf[i] > 20)
+    {
+      num_times_too_bright++;
+    }
+  }
+  Serial.printf("The value was %d times too bright\n", num_times_too_bright);
+
+  if (num_times_too_bright > 5)
+  {
+    Serial.println("Too bright, restarting");
+    delay(1000);
+    ESP.restart();
+  }
+  esp_camera_fb_return(fb);
+  esp_camera_deinit();
+
+    // init with high specs to pre-allocate larger buffers
   if (psramFound())
   {
     config.frame_size = FRAMESIZE_SVGA;
@@ -100,9 +143,10 @@ void setup()
     config.fb_count = 1;
     Serial.println("PSRAM not found, initializing camera with FRAMESIZE_CIF and jpeg quality 12");
   }
+  config.pixel_format = PIXFORMAT_JPEG;
 
   // camera init
-  esp_err_t err = esp_camera_init(&config);
+  err = esp_camera_init(&config);
   if (err != ESP_OK)
   {
     Serial.printf("Camera init failed with error 0x%x", err);
@@ -111,7 +155,6 @@ void setup()
   }
 
   Serial.println("Taking picture...");
-  camera_fb_t *fb = NULL;
   digitalWrite(INTERNAL_LED, HIGH);
   delay(100);
   fb = esp_camera_fb_get();
