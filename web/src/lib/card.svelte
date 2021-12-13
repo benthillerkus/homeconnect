@@ -232,7 +232,24 @@
     </div>
   {/if}
   <div id="info">
-    <span>{width}x{height}</span>
+    <code
+      >{width}x{height}px<br />
+      {(() => {
+        if (typeof data.created_at === "undefined") return ""
+        const date = new Date(data.created_at)
+        return (
+          date.toLocaleString("de-DE", {
+            timeZone: "Europe/Berlin",
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric"
+          }) + " Uhr"
+        )
+      })()}</code
+    >
   </div>
   <div id="actions">
     <Share onclick={handleShare} />
@@ -246,7 +263,7 @@
     --inner-border-radius: 8px;
     display: grid;
     grid: "image image" auto "info actions" 40px / 50% auto;
-    min-width: 388px;
+    min-width: min(388px, 80%);
     gap: 1rem;
     border-radius: var(--outer-border-radius);
     aspect-ratio: 6 / 6;
@@ -409,6 +426,14 @@
 
   #info {
     grid-area: info;
+    transform: scale(0.85) translate(-10%, -40%);
+  }
+
+  code {
+    font-family: monospace;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
   }
 
   #actions {

@@ -46,6 +46,7 @@ export async function get(request) {
       delete image.id
       delete image.last_accessed_at
       delete image.last_modified_at
+      delete image.updated_at
     })
 
     return {
