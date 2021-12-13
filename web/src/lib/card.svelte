@@ -262,7 +262,7 @@
     --outer-border-radius: 18px;
     --inner-border-radius: 8px;
     display: grid;
-    grid: "image image" auto "info actions" 40px / 50% auto;
+    grid: "image image" auto "info actions" 40px / 69% auto;
     min-width: min(388px, 80%);
     gap: 1rem;
     border-radius: var(--outer-border-radius);
