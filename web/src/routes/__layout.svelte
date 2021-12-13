@@ -18,7 +18,10 @@
     <nav>
       <a href="/">about</a>
       <a href="https://github.com/benthillerkus/homeconnect">source</a>
-      <a href="https://raw.githubusercontent.com/benthillerkus/homeconnect/main/web/static/3rd-party-licenses.txt">licenses</a>
+      <a
+        href="https://raw.githubusercontent.com/benthillerkus/homeconnect/main/web/static/3rd-party-licenses.txt"
+        >licenses</a
+      >
     </nav>
   </small>
 </footer>
@@ -103,51 +106,49 @@
     padding-top: 1%;
     font-size: 1.5rem;
   }
-
   footer {
-    display: none;
+    display: block;
+    width: 100%;
+    background: linear-gradient(
+      to top,
+      hsl(0, 0%, 100%),
+      hsla(0, 0%, 100%, 0.945) 7.9%,
+      hsla(0, 0%, 100%, 0.883) 15.3%,
+      hsla(0, 0%, 100%, 0.815) 22.2%,
+      hsla(0, 0%, 100%, 0.743) 28.7%,
+      hsla(0, 0%, 100%, 0.66692) 34.8%,
+      hsla(0, 0%, 100%, 0.58891) 40.6%,
+      hsla(0, 0%, 100%, 0.50925) 46.2%,
+      hsla(0, 0%, 100%, 0.42866) 51.7%,
+      hsla(0, 0%, 100%, 0.34817) 57.2%,
+      hsla(0, 0%, 100%, 0.2693) 62.8%,
+      hsla(0, 0%, 100%, 0.19309) 68.7%,
+      hsla(0, 0%, 100%, 0.12126) 75.2%,
+      hsla(0, 0%, 100%, 0.05882) 82.6%,
+      hsla(0, 0%, 100%, 0.01457) 91.2%,
+      hsla(0, 0%, 100%, 0)
+    );
+  }
+
+  footer small nav {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  footer small nav a {
+    padding: 0.2rem;
+    opacity: 0.5;
+    text-decoration: none;
+    color: black;
   }
 
   @media only screen and (min-width: 500px) {
     footer {
-      display: block;
       position: absolute;
       bottom: 0%;
       height: 50px;
-      width: 100%;
-      background: linear-gradient(
-        to top,
-        hsl(0, 0%, 100%),
-        hsla(0, 0%, 100%, 0.945) 7.9%,
-        hsla(0, 0%, 100%, 0.883) 15.3%,
-        hsla(0, 0%, 100%, 0.815) 22.2%,
-        hsla(0, 0%, 100%, 0.743) 28.7%,
-        hsla(0, 0%, 100%, 0.66692) 34.8%,
-        hsla(0, 0%, 100%, 0.58891) 40.6%,
-        hsla(0, 0%, 100%, 0.50925) 46.2%,
-        hsla(0, 0%, 100%, 0.42866) 51.7%,
-        hsla(0, 0%, 100%, 0.34817) 57.2%,
-        hsla(0, 0%, 100%, 0.2693) 62.8%,
-        hsla(0, 0%, 100%, 0.19309) 68.7%,
-        hsla(0, 0%, 100%, 0.12126) 75.2%,
-        hsla(0, 0%, 100%, 0.05882) 82.6%,
-        hsla(0, 0%, 100%, 0.01457) 91.2%,
-        hsla(0, 0%, 100%, 0)
-      );
-    }
-
-    footer small nav {
-      display: flex;
-      height: 100%;
-      justify-content: center;
-      align-items: center;
-    }
-
-    footer small nav a {
-      padding: 0.2rem;
-      opacity: 0.5;
-      text-decoration: none;
-      color: black;
     }
   }
 </style>
