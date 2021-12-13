@@ -18,7 +18,7 @@
     <nav>
       <a href="/">about</a>
       <a href="https://github.com/benthillerkus/homeconnect">source</a>
-      <a href="licenses">licenses</a>
+      <a href="https://raw.githubusercontent.com/benthillerkus/homeconnect/main/web/static/3rd-party-licenses.txt">licenses</a>
     </nav>
   </small>
 </footer>

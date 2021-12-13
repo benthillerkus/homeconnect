@@ -28,7 +28,7 @@
 
 <script>
   import Card from "$lib/card.svelte"
-  
+
   export let data
   export let error
 </script>
