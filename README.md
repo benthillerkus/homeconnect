@@ -86,7 +86,7 @@ const constexpr uint16_t port = 443;
 # Weblinks
 
 - [Original](https://youtu.be/5EVf9a-nji4)
-- [Figma](https://www.figma.com/file/rZGK06YEz8hBJKbGzTQDFX/homeconnect)
-- [Webapp](https://www.homeconnect.bent.party)
+- [Figma](https://figma.com/file/rZGK06YEz8hBJKbGzTQDFX/homeconnect)
+- [Webapp](https://homeconnect.bent.party)
 
 [^1]: Nicht ausprobiert. Wahrscheinlich geht sogar auch Cloudflare; man kann das ganze aber auch natürlich selber hosten oder lokal laufen lassen.
