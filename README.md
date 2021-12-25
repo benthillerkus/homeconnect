@@ -1,6 +1,10 @@
 # homeconnect
 
 Inoffizielle Implementierung des use-cases "Inhalt des Kühlschranks *quasi* in Realtime auf dem Handy sehen".
+| | |
+|-|-|
+|![_MG_8855_small](https://user-images.githubusercontent.com/29630575/147356002-a1503953-a282-409e-a9bb-503fe9621ffa.jpg)|![_MG_8856_small](https://user-images.githubusercontent.com/29630575/147356003-10432770-71f2-4d9a-b245-44e0ec9938da.jpg)|
+
 
 # Setup
 
