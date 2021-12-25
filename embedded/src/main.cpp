@@ -42,10 +42,11 @@ void connect_to_wifi()
 void setup()
 {
   WRITE_PERI_REG(RTC_CNTL_BROWN_OUT_REG, 0);
-  esp_sleep_enable_timer_wakeup(seconds_to_uS(15 * 60)); // Take a picture every 15 minutes
+  esp_sleep_enable_timer_wakeup(seconds_to_uS(20 * 60)); // Take a picture every 15 minutes
   Serial.begin(115200);
   pinMode(esp32cam_pins.internal_led, OUTPUT);
 
+#ifdef TEST_FOR_OPEN_FRIDGE // Be stealthy by not taking a picture when the fridge is open
   // setup camera to take a grayscale image to check if the fridge is currently open
   camera_config.pixel_format = PIXFORMAT_GRAYSCALE;
   camera_config.frame_size = FRAMESIZE_CIF;
@@ -90,15 +91,19 @@ void setup()
     delay(10000); // wait 10 seconds
     ESP.restart();
   }
+#else
+  esp_err_t err = NULL;
+  camera_fb_t *fb = NULL;
+#endif
 
   // at this point we know we're safe to take a picture with the flashlight
   // init with high specs to pre-allocate larger buffers
   if (psramFound())
   {
     camera_config.frame_size = FRAMESIZE_SVGA;
-    camera_config.jpeg_quality = 10; //0-63 lower number means higher quality
+    camera_config.jpeg_quality = 9; //0-63 lower number means higher quality
     camera_config.fb_count = 2;
-    Serial.println("PSRAM found, initializing camera with FRAMESIZE_SVGA and jpeg quality 10");
+    Serial.println("PSRAM found, initializing camera with FRAMESIZE_SVGA and jpeg quality 9");
   }
   else
   {
