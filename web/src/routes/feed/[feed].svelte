@@ -1,9 +1,9 @@
 <script context="module">
   /** @type {import('@sveltejs/kit').Load} */
-  export async function load({ page, fetch }) {
+  export async function load({ params, fetch }) {
     const res = await fetch("/api/v1/images", {
       headers: {
-        authorization: `Bearer ${page.params.feed}`
+        authorization: `Bearer ${params.feed}`
       }
     })
 
