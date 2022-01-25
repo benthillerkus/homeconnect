@@ -2,9 +2,9 @@
   /** @type {import('@sveltejs/kit').Load} */
   export async function load({ params, fetch }) {
     const res = await fetch("/api/v1/images", {
-      headers: {
+      headers: new Headers({
         authorization: `Bearer ${params.feed}`
-      }
+      })
     })
 
     if (res.status !== 200) {

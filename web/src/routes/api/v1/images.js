@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid"
 const bucketName = "images"
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-export async function post(request) {
+export async function post({ request }) {
   if (request.headers.authorization === `Bearer ${import.meta.env.VITE_HOMECONNECT_ALLOW_POST}`) {
     const { data, error } = await supabase.storage
       .from(bucketName)
@@ -32,8 +32,9 @@ export async function post(request) {
 }
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-export async function get(request) {
-  if (request.headers.authorization === `Bearer ${import.meta.env.VITE_HOMECONNECT_ALLOW_VIEW}`) {
+export async function get({request}) {
+  let headers = (await request).headers
+  if (headers.get("authorization") === `Bearer ${import.meta.env.VITE_HOMECONNECT_ALLOW_VIEW}`) {
     const res = await supabase.storage.from(bucketName).list("", {
       sortBy: { column: "created_at", order: "desc" }
     })
@@ -51,9 +52,9 @@ export async function get(request) {
 
     return {
       status: res.status,
-      headers: {
+      headers: new Headers({
         "content-type": "application/json"
-      },
+      }),
       body: JSON.stringify(res)
     }
   } else {
