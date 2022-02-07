@@ -22,7 +22,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@supabase/supabase-js": "^1.29.3",
+    "@supabase/supabase-js": "^1.30.0",
     "uuid": "^8.3.2"
   }
 }
