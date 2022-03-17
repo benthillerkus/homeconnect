@@ -19,7 +19,7 @@
 
 <main>
   <section id="login">
-    <form on:submit={goto(`/feed/${code}`)}>
+    <form on:submit|preventDefault={_ => goto(`/feed/${code}`)}>
       <input id="code" bind:value={code} type="text" placeholder="Hast du einen Code?" />
       <label for="code">
         <span aria-hidden="false" style="display: none;">Hast du einen Code?</span>
